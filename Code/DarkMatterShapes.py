@@ -42,3 +42,7 @@ while resolved:
         except:
             pass
         hid+=1
+
+out = open(f'{output_path}DarkMatterShapes.SI{args.cross_section}.pickle','wb')
+pickle.dump(Data,out)
+out.close()
