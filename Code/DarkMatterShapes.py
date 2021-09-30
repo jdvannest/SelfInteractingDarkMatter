@@ -18,7 +18,7 @@ args = parser.parse_args()
 
 Data = {}
 
-simpath = f'/data2/akaxia/storm25cmbSI{args.cross_section}.4096/storm.cosmo25cmbSI{args.cross_section}.4096.004096'
+simpath = f'/data2/akaxia/storm.cosmo25cmbSI{args.cross_section}.4096/storm.cosmo25cmbSI{args.cross_section}.4096.004096'
 with open(f'{simpath}.0000.z0.000.AHF_halos') as f:
     stat = f.readlines()
 s = pynbody.load(simpath)
