@@ -1,4 +1,4 @@
-import argparse,pickle,pynbody,sys
+import argparse,pickle,pymp,pynbody,sys
 import numpy as np
 from pynbody.analysis.halo import halo_shape
 def myprint(string,clear=False):
@@ -14,6 +14,7 @@ parser = argparse.ArgumentParser(description="Calculates Shapes of dark matter h
                                 +"using pynbody's built in shape function", 
                                 usage="DarkMatterShapes.py -c 3")
 parser.add_argument("-c","--cross_section",required=True,choices=['3','10','30','50'])
+parser.add_argument("-p","--pynbody",action="store_true")
 args = parser.parse_args()
 
 Data = {}
@@ -25,28 +26,51 @@ with open(f'{simpath}.0000.z0.000.AHF_halos') as f:
 s = pynbody.load(simpath)
 s.physical_units()
 h = s.halos(dosort=True)
-myprint('Simulation loaded.\n')
+myprint('Simulation loaded.\nWriting AHF Data',clear=True)
 
 #stat npart:4 , b:24 , c:25
-resolved,hid = [True,1]
+resolved,hid,halos = [True,1,[]]
 while resolved:
-    myprint(f'Current DM Particle Count: {stat[hid].split()[4]}',clear=True)
     if int(stat[hid].split()[4]) < 1000:
         resolved = False
     else:
-        Data[str(hid)] = {'b':np.nan,'c':np.nan,'b_pyn':[],'c_pyn':[],'rbins':[]}
+        Data[str(hid)] = {'b':np.nan,'c':np.nan,'b_pyn':[np.nan],'c_pyn':[np.nan],'rbins':[np.nan]}
         Data[str(hid)]['b'] = float(stat[hid].split()[24])
         Data[str(hid)]['c'] = float(stat[hid].split()[25])
-        try:
-            r,ba,ca,angle,Es = halo_shape(h[hid])
-            Data[str(hid)]['b_pyn'] = ba
-            Data[str(hid)]['c_pyn'] = ca
-            Data[str(hid)]['rbins'] = r
-        except:
-            pass
+        halos.append(hid)
         hid+=1
 
 out = open(f'{output_path}DarkMatterShapes.SI{args.cross_section}.pickle','wb')
 pickle.dump(Data,out)
 out.close()
-print('File Updated.')
+myprint('AHF Data Written.',clear=True)
+
+if args.pynbody:
+    print('Writing Pynbody Data: 0.00%')
+    SharedData = pymp.shared.dict()
+    prog=pymp.shared.array((1,),dtype=int)
+    with pymp.Parallel(args.numproc) as pl:
+        for i in pl.xrange(len(halos)):
+            hid = halos[i]
+            current = {}
+            try:
+                r,ba,ca,angle,Es = halo_shape(h[hid])
+                current['b_pyn'] = ba
+                current['c_pyn'] = ca
+                current['rbins'] = r
+            except:
+                current['b_pyn'] = [np.nan]
+                current['c_pyn'] = [np.nan]
+                current['rbins'] = [np.nan]
+            SharedData[str(hid)] = current
+            myprint(f'Writing Pynbody Data: {round(hid/len(halos),2)}%',clear=True)
+            prog+=1
+    
+    for halo in Data:
+        for key in ['b_pyn','c_pyn','rbins']:
+            Data[halo][key] = SharedData[halo][key]
+    
+    out = open(f'{output_path}DarkMatterShapes.SI{args.cross_section}.pickle','wb')
+    pickle.dump(Data,out)
+    out.close()
+    myprint('Pynbody Data Written.',clear=True)
