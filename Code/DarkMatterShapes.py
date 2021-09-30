@@ -13,7 +13,7 @@ num_proc = 10
 parser = argparse.ArgumentParser(description="Calculates Shapes of dark matter halos"
                                 +"using pynbody's built in shape function", 
                                 usage="DarkMatterShapes.py -c 3")
-parser.add_argument("-c","--cross_section",requried=True,choices=['3','10','30','50'])
+parser.add_argument("-c","--cross_section",required=True,choices=['3','10','30','50'])
 args = parser.parse_args()
 
 Data = {}
