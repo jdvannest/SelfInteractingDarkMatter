@@ -18,17 +18,20 @@ args = parser.parse_args()
 
 Data = {}
 
+print('Loading simulation...')
 simpath = f'/data2/akaxia/storm.cosmo25cmbSI{args.cross_section}.4096/storm.cosmo25cmbSI{args.cross_section}.4096.004096'
 with open(f'{simpath}.0000.z0.000.AHF_halos') as f:
     stat = f.readlines()
 s = pynbody.load(simpath)
 s.physical_units()
 h = s.halos(dosort=True)
+myprint('Simulation loaded.\n')
 
 #stat npart:4 , b:24 , c:25
 resolved,hid = [True,1]
 while resolved:
-    if stat[hid].split()[4] < 1000:
+    myprint(f'Current DM Particle Count: {stat[hid].split()[4]}',clear=True)
+    if int(stat[hid].split()[4]) < 1000:
         resolved = False
     else:
         Data[str(hid)] = {'b':np.nan,'c':np.nan,'b_pyn':[],'c_pyn':[],'rbins':[]}
@@ -46,3 +49,4 @@ while resolved:
 out = open(f'{output_path}DarkMatterShapes.SI{args.cross_section}.pickle','wb')
 pickle.dump(Data,out)
 out.close()
+print('File Updated.')
