@@ -49,7 +49,7 @@ if args.pynbody:
     print('Writing Pynbody Data: 0.00%')
     SharedData = pymp.shared.dict()
     prog=pymp.shared.array((1,),dtype=int)
-    with pymp.Parallel(args.numproc) as pl:
+    with pymp.Parallel(args.num_proc) as pl:
         for i in pl.xrange(len(halos)):
             hid = halos[i]
             current = {}
