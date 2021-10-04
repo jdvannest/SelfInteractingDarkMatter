@@ -1,6 +1,7 @@
-import argparse,pickle,pymp,pynbody,sys
+import argparse,pickle,pymp,pynbody,sys,warnings
 import numpy as np
 from pynbody.analysis.halo import halo_shape
+warnings.filterwarnings("ignore")
 def myprint(string,clear=False):
     if clear:
         sys.stdout.write("\033[F")
