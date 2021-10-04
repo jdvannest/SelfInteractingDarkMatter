@@ -54,6 +54,7 @@ if args.pynbody:
             hid = halos[i]
             current = {}
             try:
+                pynbody.analysis.angmom.faceon(h[hid])
                 r,ba,ca,angle,Es = halo_shape(h[hid])
                 current['b_pyn'] = ba
                 current['c_pyn'] = ca
