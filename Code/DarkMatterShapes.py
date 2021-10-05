@@ -14,14 +14,19 @@ num_proc = 10
 parser = argparse.ArgumentParser(description="Calculates Shapes of dark matter halos"
                                 +"using pynbody's built in shape function", 
                                 usage="DarkMatterShapes.py -c 3")
-parser.add_argument("-c","--cross_section",required=True,choices=['3','10','30','50'])
+parser.add_argument("-c","--cross_section",required=True,choices=['cdm','3','10','30','50'])
 parser.add_argument("-p","--pynbody",action="store_true")
 args = parser.parse_args()
 
 Data = {}
+if args.cross_section == 'cdm':
+    simpath = '/data/REPOSITORY/dwarf_volumes/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.004096'
+    filename = f'{output_path}DarkMatterShapes.CDM.pickle'
+else:
+    simpath = f'/data2/akaxia/storm.cosmo25cmbSI{args.cross_section}.4096/storm.cosmo25cmbSI{args.cross_section}.4096.004096'
+    filename = f'{output_path}DarkMatterShapes.SI{args.cross_section}.pickle'
 
 print('Loading simulation...')
-simpath = f'/data2/akaxia/storm.cosmo25cmbSI{args.cross_section}.4096/storm.cosmo25cmbSI{args.cross_section}.4096.004096'
 with open(f'{simpath}.0000.z0.000.AHF_halos') as f:
     stat = f.readlines()
 s = pynbody.load(simpath)
@@ -43,7 +48,7 @@ while resolved_num:
             halos.append(hid)
         hid+=1
 
-out = open(f'{output_path}DarkMatterShapes.SI{args.cross_section}.pickle','wb')
+out = open(filename,'wb')
 pickle.dump(Data,out)
 out.close()
 myprint(f'AHF Data Written. {len(halos)} Resolved Halos Found.',clear=True)
@@ -74,7 +79,7 @@ if args.pynbody:
         for key in ['b_pyn','c_pyn','rbins']:
             Data[halo][key] = SharedData[halo][key]
     
-    out = open(f'{output_path}DarkMatterShapes.SI{args.cross_section}.pickle','wb')
+    out = open(filename,'wb')
     pickle.dump(Data,out)
     out.close()
     myprint('Pynbody Data Written.',clear=True)
