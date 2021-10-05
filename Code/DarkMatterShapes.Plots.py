@@ -50,7 +50,20 @@ ax.set_ylabel('c/a',fontsize=25)
 ax.set_title(im,fontsize=25)
 ax.plot([0,1],[0,1],c='0.5',linestyle='--')
 ax.scatter(b,c,c='k',marker='.',s=.75**2)
-ax.contour(xk, yk, zk.reshape(xk.shape),levels=3,cmap='spring')
+ax.contour(xk,yk,zk.reshape(xk.shape),levels=3,cmap='spring')
 f.savefig(f'../Plots/DarkMatterShapes.{im}.AHF.Contour.png',bbox_inches='tight',pad_inches=.1)
 meta = OSXMetaData(f'../Plots/DarkMatterShapes.{im}.AHF.Contour.png')
+meta.creator='DarkMatterShapes.Plots.py'
+
+
+f,ax = plt.subplots(1,1,figsize=(8,8))
+ax.set_xlim([0,1])
+ax.set_ylim([0,1])
+ax.set_xlabel('b/a',fontsize=25)
+ax.set_ylabel('c/a',fontsize=25)
+ax.set_title(im,fontsize=25)
+ax.plot([0,1],[0,1],c='0.5',linestyle='--')
+ax.hist2d(b,c,[bins,bins],cmap='Greys',density=True)
+f.savefig(f'../Plots/DarkMatterShapes.{im}.AHF.Histogram.png',bbox_inches='tight',pad_inches=.1)
+meta = OSXMetaData(f'../Plots/DarkMatterShapes.{im}.AHF.Histogram.png')
 meta.creator='DarkMatterShapes.Plots.py'
