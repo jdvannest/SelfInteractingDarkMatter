@@ -30,21 +30,23 @@ h = s.halos(dosort=True)
 myprint('Simulation loaded.\nWriting AHF Data',clear=True)
 
 #stat npart:4 , b:24 , c:25
-resolved,hid,halos = [True,1,[]]
-while resolved:
+Data['1'] = {'b':float(stat[1].split()[24]),'c':float(stat[1].split()[25]),'b_pyn':[np.nan],'c_pyn':[np.nan],'rbins':[np.nan]}
+resolved_num,hid,halos,min_dm_mass = [True,2,[1],8067.581622282078]
+while resolved_num:
     if int(stat[hid].split()[4]) < 1000:
-        resolved = False
+        resolved_num = False
     else:
-        Data[str(hid)] = {'b':np.nan,'c':np.nan,'b_pyn':[np.nan],'c_pyn':[np.nan],'rbins':[np.nan]}
-        Data[str(hid)]['b'] = float(stat[hid].split()[24])
-        Data[str(hid)]['c'] = float(stat[hid].split()[25])
-        halos.append(hid)
+        if len(h[hid].dm['mass'][h[hid].dm['mass']>min_dm_mass])/len(h[hid].dm['mass']) < 0.1:
+            Data[str(hid)] = {'b':np.nan,'c':np.nan,'b_pyn':[np.nan],'c_pyn':[np.nan],'rbins':[np.nan]}
+            Data[str(hid)]['b'] = float(stat[hid].split()[24])
+            Data[str(hid)]['c'] = float(stat[hid].split()[25])
+            halos.append(hid)
         hid+=1
 
 out = open(f'{output_path}DarkMatterShapes.SI{args.cross_section}.pickle','wb')
 pickle.dump(Data,out)
 out.close()
-myprint('AHF Data Written.',clear=True)
+myprint(f'AHF Data Written. {len(halos)} Resolved Halos Found.',clear=True)
 
 if args.pynbody:
     print('Writing Pynbody Data: 0.00%')
