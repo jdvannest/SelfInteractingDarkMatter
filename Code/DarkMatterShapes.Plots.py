@@ -14,6 +14,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-c","--cross_section",required=True,choices=['cdm','3','10','30','50'])
 parser.add_argument("-p","--pynbody",action="store_true")
 parser.add_argument("-i","--inner",action="store_true")
+parser.add_argument("-t","--top",action="store_true")
 args = parser.parse_args()
 
 if args.cross_section == 'cdm':
@@ -28,15 +29,24 @@ lab = 'Inner ' if args.inner else ''
 
 data = pickle.load(open(filename,'rb'))
 
+halo_list = [h for h in data]
+if args.top:
+    with open('../DataFiles/storm_uncontam_halos_top200.txt') as f:
+        L = f.readlines()
+    halo_list = [str(int(float(i.rstrip('\n')))) for i in L]
+    topapp = '.top'
+else:
+    topapp = ''
+
 b,c,bpyn,cpyn = [[],[],[],[]]
-for halo in data:
+for halo in halo_list:
     b.append(data[halo]['b'])
     c.append(data[halo]['c'])
     if not args.inner:
         bpyn.append(data[halo]['b_pyn'][-1])
         cpyn.append(data[halo]['c_pyn'][-1])
     else:
-        i_inner = np.argmin(abs(data[halo]['rbins'] - (data[halo]['rbins'][-1]*.25 )))
+        i_inner = np.argmin(abs(data[halo]['rbins'] - (data[halo]['rbins'][-1]*.1 )))
         bpyn.append(data[halo]['b_pyn'][i_inner])
         cpyn.append(data[halo]['c_pyn'][i_inner])
 
@@ -49,8 +59,8 @@ ax.set_ylabel('c/a [AHF]',fontsize=25)
 ax.set_title(im,fontsize=25)
 ax.plot([0,1],[0,1],c='0.5',linestyle='--')
 ax.scatter(b,c,c='k',marker='.',s=.75**2)
-f.savefig(f'../Plots/DarkMatterShapes.{im}.AHF.png',bbox_inches='tight',pad_inches=.1)
-meta = OSXMetaData(f'../Plots/DarkMatterShapes.{im}.AHF.png')
+f.savefig(f'../Plots/DarkMatterShapes{topapp}.{im}.AHF.png',bbox_inches='tight',pad_inches=.1)
+meta = OSXMetaData(f'../Plots/DarkMatterShapes{topapp}.{im}.AHF.png')
 meta.creator='DarkMatterShapes.Plots.py'
 
 nbins=100
@@ -69,8 +79,8 @@ ax.set_title(im,fontsize=25)
 ax.plot([0,1],[0,1],c='0.5',linestyle='--')
 ax.scatter(b,c,c='k',marker='.',s=.75**2)
 ax.contour(xk,yk,zk.reshape(xk.shape),levels=3,cmap='spring')
-f.savefig(f'../Plots/DarkMatterShapes.{im}.AHF.Contour.png',bbox_inches='tight',pad_inches=.1)
-meta = OSXMetaData(f'../Plots/DarkMatterShapes.{im}.AHF.Contour.png')
+f.savefig(f'../Plots/DarkMatterShapes{topapp}.{im}.AHF.Contour.png',bbox_inches='tight',pad_inches=.1)
+meta = OSXMetaData(f'../Plots/DarkMatterShapes{topapp}.{im}.AHF.Contour.png')
 meta.creator='DarkMatterShapes.Plots.py'
 
 
@@ -91,8 +101,8 @@ ax3 = ax.twiny()
 ax3.set_xlim([0,50])
 ax3.set_xticks([])
 ax3.hist(c,bins,histtype='step',facecolor='None',edgecolor='k',density=True,orientation='horizontal')
-f.savefig(f'../Plots/DarkMatterShapes.{im}.AHF.Histogram.png',bbox_inches='tight',pad_inches=.1)
-meta = OSXMetaData(f'../Plots/DarkMatterShapes.{im}.AHF.Histogram.png')
+f.savefig(f'../Plots/DarkMatterShapes{topapp}.{im}.AHF.Histogram.png',bbox_inches='tight',pad_inches=.1)
+meta = OSXMetaData(f'../Plots/DarkMatterShapes{topapp}.{im}.AHF.Histogram.png')
 meta.creator='DarkMatterShapes.Plots.py'
 
 if args.pynbody:
@@ -105,8 +115,8 @@ if args.pynbody:
     ax.set_title(im,fontsize=25)
     ax.plot([0,1],[0,1],c='0.5',linestyle='--')
     ax.scatter(bpyn,cpyn,c='k',marker='.',s=.75**2)
-    f.savefig(f'../Plots/DarkMatterShapes.{im}{app}.Pynbody.png',bbox_inches='tight',pad_inches=.1)
-    meta = OSXMetaData(f'../Plots/DarkMatterShapes.{im}{app}.Pynbody.png')
+    f.savefig(f'../Plots/DarkMatterShapes{topapp}.{im}{app}.Pynbody.png',bbox_inches='tight',pad_inches=.1)
+    meta = OSXMetaData(f'../Plots/DarkMatterShapes{topapp}.{im}{app}.Pynbody.png')
     meta.creator='DarkMatterShapes.Plots.py'
 
     nbins=100
@@ -125,8 +135,8 @@ if args.pynbody:
     ax.plot([0,1],[0,1],c='0.5',linestyle='--')
     ax.scatter(bpyn,cpyn,c='k',marker='.',s=.75**2)
     ax.contour(xk,yk,zk.reshape(xk.shape),levels=3,cmap='spring')
-    f.savefig(f'../Plots/DarkMatterShapes.{im}{app}.Pynbody.Contour.png',bbox_inches='tight',pad_inches=.1)
-    meta = OSXMetaData(f'../Plots/DarkMatterShapes.{im}{app}.Pynbody.Contour.png')
+    f.savefig(f'../Plots/DarkMatterShapes{topapp}.{im}{app}.Pynbody.Contour.png',bbox_inches='tight',pad_inches=.1)
+    meta = OSXMetaData(f'../Plots/DarkMatterShapes{topapp}.{im}{app}.Pynbody.Contour.png')
     meta.creator='DarkMatterShapes.Plots.py'
 
 
@@ -147,8 +157,8 @@ if args.pynbody:
     ax3.set_xlim([0,50])
     ax3.set_xticks([])
     ax3.hist(cpyn,bins,histtype='step',facecolor='None',edgecolor='k',density=True,orientation='horizontal')
-    f.savefig(f'../Plots/DarkMatterShapes.{im}{app}.Pynbody.Histogram.png',bbox_inches='tight',pad_inches=.1)
-    meta = OSXMetaData(f'../Plots/DarkMatterShapes.{im}{app}.Pynbody.Histogram.png')
+    f.savefig(f'../Plots/DarkMatterShapes{topapp}.{im}{app}.Pynbody.Histogram.png',bbox_inches='tight',pad_inches=.1)
+    meta = OSXMetaData(f'../Plots/DarkMatterShapes{topapp}.{im}{app}.Pynbody.Histogram.png')
     meta.creator='DarkMatterShapes.Plots.py'
 
     f,ax = plt.subplots(1,2,figsize=(15,8))
@@ -200,6 +210,6 @@ if args.pynbody:
     ax15.set_xlim([0,50])
     ax15.set_xticks([])
     ax15.hist(cpyn,bins,histtype='step',facecolor='None',edgecolor='r',density=True,orientation='horizontal')
-    f.savefig(f'../Plots/DarkMatterShapes.{im}{app}.Comparison.Histogram.png',bbox_inches='tight',pad_inches=.1)
-    meta = OSXMetaData(f'../Plots/DarkMatterShapes.{im}{app}.Comparison.Histogram.png')
+    f.savefig(f'../Plots/DarkMatterShapes{topapp}.{im}{app}.Comparison.Histogram.png',bbox_inches='tight',pad_inches=.1)
+    meta = OSXMetaData(f'../Plots/DarkMatterShapes{topapp}.{im}{app}.Comparison.Histogram.png')
     meta.creator='DarkMatterShapes.Plots.py'

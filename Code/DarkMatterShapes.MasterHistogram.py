@@ -9,6 +9,13 @@ def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=100):
         'trunc({n},{a:.2f},{b:.2f})'.format(n=cmap.name, a=minval, b=maxval),
         cmap(np.linspace(minval, maxval, n)))
     return new_cmap
+parser = argparse.ArgumentParser()
+parser.add_argument("-t","--top",action="store_true")
+parser.add_argument("-i","--inner",action="store_true")
+args = parser.parse_args()
+
+topapp = '.top' if args.top else ''
+app = '.Inner' if args.inner else ''
 
 b,c,bpyn,cpyn = [[],[],[],[]]
 for cs in ['CDM','SI3','SI10']:
@@ -18,11 +25,20 @@ for cs in ['CDM','SI3','SI10']:
     cpyn.append([])
     filename = f'../DataFiles/DarkMatterShapes.{cs}.pickle'
     data = pickle.load(open(filename,'rb'))
-    for halo in data:
-        b[-1].append(data[halo]['b'])
-        c[-1].append(data[halo]['c'])
-        bpyn[-1].append(data[halo]['b_pyn'][-1])
-        cpyn[-1].append(data[halo]['c_pyn'][-1])
+    halo_list = [h for h in data]
+    if args.top: halo_list = halo_list[:30]
+    for halo in halo_list:
+        if args.inner:
+            i_inner = np.argmin(abs(data[halo]['rbins'] - (data[halo]['rbins'][-1]*.1 )))
+            b[-1].append(data[halo]['b'])
+            c[-1].append(data[halo]['c'])
+            bpyn[-1].append(data[halo]['b_pyn'][i_inner])
+            cpyn[-1].append(data[halo]['c_pyn'][i_inner])
+        else:
+            b[-1].append(data[halo]['b'])
+            c[-1].append(data[halo]['c'])
+            bpyn[-1].append(data[halo]['b_pyn'][-1])
+            cpyn[-1].append(data[halo]['c_pyn'][-1])
 
 bins = np.linspace(0,1,101)
 f,ax = plt.subplots(2,3,figsize=(22,15))
@@ -105,6 +121,6 @@ for i in [0,1,2]:
     ax7.set_xticks([])
     ax7.hist(cpyn[2],bins,histtype='step',facecolor='None',edgecolor='b',density=True,orientation='horizontal')
 
-f.savefig(f'../Plots/DarkMatterShapes.MasterHistogram.png',bbox_inches='tight',pad_inches=.1)
-meta = OSXMetaData(f'../Plots/DarkMatterShapes.MasterHistogram.png')
+f.savefig(f'../Plots/DarkMatterShapes{topapp}{app}.MasterHistogram.png',bbox_inches='tight',pad_inches=.1)
+meta = OSXMetaData(f'../Plots/DarkMatterShapes{topapp}{app}.MasterHistogram.png')
 meta.creator='DarkMatterShapes.MasterHistogram.py'
