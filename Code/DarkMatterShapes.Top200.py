@@ -28,7 +28,7 @@ else:
 
 with open('/data2/akaxia/storm_uncontam_halos_top200.txt') as f:
     L = f.readlines()
-halos = [int(float(i.rstrip('\n'))) for i in L]
+halo_list = [int(float(i.rstrip('\n'))) for i in L]
 
 print('Loading simulation...')
 with open(f'{simpath}.0000.z0.000.AHF_halos') as f:
@@ -39,7 +39,7 @@ h = s.halos(dosort=True)
 myprint('Simulation loaded.\nWriting AHF Data',clear=True)
 
 #stat npart:4 , b:24 , c:25
-for hid in halos:
+for hid in halo_list:
     Data[str(hid)] = {'b':np.nan,'c':np.nan,'b_pyn':[np.nan],'c_pyn':[np.nan],'rbins':[np.nan]}
     Data[str(hid)]['b'] = float(stat[hid].split()[24])
     Data[str(hid)]['c'] = float(stat[hid].split()[25])
@@ -48,15 +48,15 @@ for hid in halos:
 out = open(filename,'wb')
 pickle.dump(Data,out)
 out.close()
-myprint(f'AHF Data Written. {len(halos)} Resolved Halos Found.',clear=True)
+myprint(f'AHF Data Written. {len(halo_list)} Resolved Halos Found.',clear=True)
 
 if args.pynbody:
     print('Writing Pynbody Data: 0.00%')
     SharedData = pymp.shared.dict()
     prog=pymp.shared.array((1,),dtype=int)
     with pymp.Parallel(num_proc) as pl:
-        for i in pl.xrange(len(halos)):
-            hid = halos[i]
+        for i in pl.xrange(len(halo_list)):
+            hid = halo_list[i]
             current = {}
             try:
                 pynbody.analysis.angmom.faceon(h[hid])
@@ -69,7 +69,7 @@ if args.pynbody:
                 current['c_pyn'] = [np.nan]
                 current['rbins'] = [np.nan]
             SharedData[str(hid)] = current
-            myprint(f'Writing Pynbody Data: {round(prog[0]/len(halos)*100,2)}%',clear=True)
+            myprint(f'Writing Pynbody Data: {round(prog[0]/len(halo_list)*100,2)}%',clear=True)
             prog[0]+=1
     
     for halo in Data:
