@@ -72,8 +72,8 @@ if args.pynbody:
                 current['c_pyn'] = [np.nan]
                 current['rbins'] = [np.nan]
             SharedData[str(hid)] = current
-            myprint(f'Writing Pynbody Data: {round(prog[0]/len(halos)*100,2)}%',clear=True)
             prog[0]+=1
+            myprint(f'Writing Pynbody Data: {round(prog[0]/len(halos)*100,2)}%',clear=True)
     
     for halo in Data:
         for key in ['b_pyn','c_pyn','rbins']:

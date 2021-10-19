@@ -14,6 +14,7 @@ parser.add_argument("-t","--top",action="store_true")
 parser.add_argument("-i","--inner",action="store_true")
 args = parser.parse_args()
 
+topfile = '.Top200' if args.top else ''
 topapp = '.top' if args.top else ''
 app = '.Inner' if args.inner else ''
 
@@ -23,22 +24,20 @@ for cs in ['CDM','SI3','SI10']:
     c.append([])
     bpyn.append([])
     cpyn.append([])
-    filename = f'../DataFiles/DarkMatterShapes.{cs}.pickle'
+    filename = f'../DataFiles/DarkMatterShapes{topfile}.{cs}.pickle'
     data = pickle.load(open(filename,'rb'))
     halo_list = [h for h in data]
-    if args.top: halo_list = halo_list[:30]
     for halo in halo_list:
-        if args.inner:
-            i_inner = np.argmin(abs(data[halo]['rbins'] - (data[halo]['rbins'][-1]*.1 )))
-            b[-1].append(data[halo]['b'])
-            c[-1].append(data[halo]['c'])
-            bpyn[-1].append(data[halo]['b_pyn'][i_inner])
-            cpyn[-1].append(data[halo]['c_pyn'][i_inner])
-        else:
-            b[-1].append(data[halo]['b'])
-            c[-1].append(data[halo]['c'])
-            bpyn[-1].append(data[halo]['b_pyn'][-1])
-            cpyn[-1].append(data[halo]['c_pyn'][-1])
+        b[-1].append(data[halo]['b'])
+        c[-1].append(data[halo]['c'])
+        if not np.isnan(data[halo]['rbins'][0]):
+            if args.inner:
+                i_inner = np.argmin(abs(data[halo]['rbins'] - (data[halo]['rbins'][-1]*.1 )))
+                bpyn[-1].append(data[halo]['b_pyn'][i_inner])
+                cpyn[-1].append(data[halo]['c_pyn'][i_inner])
+            else:
+                bpyn[-1].append(data[halo]['b_pyn'][-1])
+                cpyn[-1].append(data[halo]['c_pyn'][-1])
 
 bins = np.linspace(0,1,101)
 f,ax = plt.subplots(2,3,figsize=(22,15))
@@ -123,4 +122,44 @@ for i in [0,1,2]:
 
 f.savefig(f'../Plots/DarkMatterShapes{topapp}{app}.MasterHistogram.png',bbox_inches='tight',pad_inches=.1)
 meta = OSXMetaData(f'../Plots/DarkMatterShapes{topapp}{app}.MasterHistogram.png')
+meta.creator='DarkMatterShapes.MasterHistogram.py'
+
+
+f,ax = plt.subplots(2,2,figsize=(10,10))
+plt.subplots_adjust(hspace=0,wspace=0)
+for i in [0,1]:
+    for j in [0,1]:
+        ax[i][j].set_xlim([0,1])
+        ax[i][j].set_ylim([0,1])
+        ax[i][j].tick_params(length=5,labelsize=15)
+        if j==1: ax[i][j].set_yticks([])
+        if i==0: ax[i][j].set_xticks([])
+ax[1][0].set_xticks([0,.2,.4,.6,.8])
+ax[1][0].set_yticks([0,.2,.4,.6,.8])
+ax[1][1].set_xticks([0,.2,.4,.6,.8,1])
+ax[0][0].set_yticks([0,.2,.4,.6,.8,1])
+ax[0][0].set_ylabel('b/a',fontsize=25)
+ax[1][0].set_ylabel('c/a',fontsize=25)
+ax[0][0].set_title('AHF',fontsize=25)
+ax[0][1].set_title('Pynbody',fontsize=25)
+
+ax[0][0].hist(b[0],bins,facecolor='None',edgecolor='k',histtype='step',density=True,cumulative=True,label='CDM')
+ax[0][0].hist(b[1],bins,facecolor='None',edgecolor='r',histtype='step',density=True,cumulative=True,label='SI3')
+ax[0][0].hist(b[2],bins,facecolor='None',edgecolor='b',histtype='step',density=True,cumulative=True,label='SI10')
+
+ax[1][0].hist(c[0],bins,facecolor='None',edgecolor='k',histtype='step',density=True,cumulative=True)
+ax[1][0].hist(c[1],bins,facecolor='None',edgecolor='r',histtype='step',density=True,cumulative=True)
+ax[1][0].hist(c[2],bins,facecolor='None',edgecolor='b',histtype='step',density=True,cumulative=True)
+
+ax[0][1].hist(bpyn[0],bins,facecolor='None',edgecolor='k',histtype='step',density=True,cumulative=True)
+ax[0][1].hist(bpyn[1],bins,facecolor='None',edgecolor='r',histtype='step',density=True,cumulative=True)
+ax[0][1].hist(bpyn[2],bins,facecolor='None',edgecolor='b',histtype='step',density=True,cumulative=True)
+
+ax[1][1].hist(cpyn[0],bins,facecolor='None',edgecolor='k',histtype='step',density=True,cumulative=True)
+ax[1][1].hist(cpyn[1],bins,facecolor='None',edgecolor='r',histtype='step',density=True,cumulative=True)
+ax[1][1].hist(cpyn[2],bins,facecolor='None',edgecolor='b',histtype='step',density=True,cumulative=True)
+
+ax[0][0].legend(loc='upper left',prop={'size':15})
+f.savefig(f'../Plots/DarkMatterShapes{topapp}{app}.CDF.png',bbox_inches='tight',pad_inches=.1)
+meta = OSXMetaData(f'../Plots/DarkMatterShapes{topapp}{app}.CDF.png')
 meta.creator='DarkMatterShapes.MasterHistogram.py'

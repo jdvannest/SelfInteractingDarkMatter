@@ -17,11 +17,13 @@ parser.add_argument("-i","--inner",action="store_true")
 parser.add_argument("-t","--top",action="store_true")
 args = parser.parse_args()
 
+topfile = '.Top200' if args.top else ''
+topapp = '.top' if args.top else ''
 if args.cross_section == 'cdm':
-    filename = f'../DataFiles/DarkMatterShapes.CDM.pickle'
+    filename = f'../DataFiles/DarkMatterShapes{topfile}.CDM.pickle'
     im = 'CDM'
 else:
-    filename = f'../DataFiles/DarkMatterShapes.SI{args.cross_section}.pickle'
+    filename = f'../DataFiles/DarkMatterShapes{topfile}.SI{args.cross_section}.pickle'
     im = f'SI{args.cross_section}'
 
 app = '.Inner' if args.inner else ''
@@ -30,25 +32,19 @@ lab = 'Inner ' if args.inner else ''
 data = pickle.load(open(filename,'rb'))
 
 halo_list = [h for h in data]
-if args.top:
-    with open('../DataFiles/storm_uncontam_halos_top200.txt') as f:
-        L = f.readlines()
-    halo_list = [str(int(float(i.rstrip('\n')))) for i in L]
-    topapp = '.top'
-else:
-    topapp = ''
 
 b,c,bpyn,cpyn = [[],[],[],[]]
 for halo in halo_list:
     b.append(data[halo]['b'])
     c.append(data[halo]['c'])
-    if not args.inner:
-        bpyn.append(data[halo]['b_pyn'][-1])
-        cpyn.append(data[halo]['c_pyn'][-1])
-    else:
-        i_inner = np.argmin(abs(data[halo]['rbins'] - (data[halo]['rbins'][-1]*.1 )))
-        bpyn.append(data[halo]['b_pyn'][i_inner])
-        cpyn.append(data[halo]['c_pyn'][i_inner])
+    if not np.isnan(data[halo]['rbins'][0]):
+        if not args.inner:
+            bpyn.append(data[halo]['b_pyn'][-1])
+            cpyn.append(data[halo]['c_pyn'][-1])
+        else:
+            i_inner = np.argmin(abs(data[halo]['rbins'] - (data[halo]['rbins'][-1]*.1 )))
+            bpyn.append(data[halo]['b_pyn'][i_inner])
+            cpyn.append(data[halo]['c_pyn'][i_inner])
 
 f,ax = plt.subplots(1,1,figsize=(8,8))
 ax.set_xlim([0,1])
