@@ -163,3 +163,60 @@ ax[0][0].legend(loc='upper left',prop={'size':15})
 f.savefig(f'../Plots/DarkMatterShapes{topapp}{app}.CDF.png',bbox_inches='tight',pad_inches=.1)
 meta = OSXMetaData(f'../Plots/DarkMatterShapes{topapp}{app}.CDF.png')
 meta.creator='DarkMatterShapes.MasterHistogram.py'
+
+
+
+f,ax = plt.subplots(1,3,figsize=(22,7))
+plt.subplots_adjust(wspace=0)
+pre='Inner ' if args.inner else ''
+for j in [0,1,2]:
+    ax[j].set_xticks([0,.2,.4,.6,.8])
+    ax[j].set_yticks([])
+    ax[j].set_xlim([0,1])
+    ax[j].set_ylim([0,1])
+    ax[j].tick_params(length=5,labelsize=20)
+    ax[j].plot([0,1],[0,1],c='0.5',linestyle='--')
+ax[0].set_yticks([0,.2,.4,.6,.8,1])
+ax[2].set_xticks([0,.2,.4,.6,.8,1])
+ax[0].set_ylabel(f'{pre}c/a',fontsize=30)
+ax[1].set_xlabel(f'{pre}b/a',fontsize=30)
+ax[0].set_title('CDM',fontsize=25)
+ax[1].set_title('SI3',fontsize=25)
+ax[2].set_title('SI10',fontsize=25)
+
+bins = np.linspace(0,1,101)
+ax[0].hist2d(bpyn[0],cpyn[0],[bins,bins],cmap='Greys',density=True)
+ax[1].hist2d(bpyn[1],cpyn[1],[bins,bins],cmap=truncate_colormap(plt.get_cmap('seismic'),0.5,1),density=True)
+ax[2].hist2d(bpyn[2],cpyn[2],[bins,bins],cmap=truncate_colormap(plt.get_cmap('seismic_r'),0.5,1),density=True)
+
+f.savefig(f'/Users/jdvannest/Desktop/PynbodyOnly.DarkMatterShapes{topapp}{app}.MasterHistogram.png',bbox_inches='tight',pad_inches=.1)
+meta = OSXMetaData(f'/Users/jdvannest/Desktop/PynbodyOnly.DarkMatterShapes{topapp}{app}.MasterHistogram.png')
+meta.creator='DarkMatterShapes.MasterHistogram.py'
+
+
+f,ax = plt.subplots(1,2,figsize=(10,5))
+plt.subplots_adjust(wspace=0)
+for i in [0,1]:
+    ax[i].set_xlim([0,1])
+    ax[i].set_ylim([0,1])
+    ax[i].set_yticks([])
+    ax[i].set_xticks([0,.2,.4,.6,.8])
+    ax[i].tick_params(length=5,labelsize=15)
+ax[0].set_yticks([0,.2,.4,.6,.8,1])
+ax[1].set_xticks([0,.2,.4,.6,.8,1])
+ax[0].set_title(f'{pre}b/a',fontsize=25)
+ax[1].set_title(f'{pre}c/a',fontsize=25)
+
+ax[0].hist(bpyn[0],bins,facecolor='None',edgecolor='k',histtype='step',density=True,cumulative=True,label='CDM')
+ax[0].hist(bpyn[1],bins,facecolor='None',edgecolor='r',histtype='step',density=True,cumulative=True,label='SI3')
+ax[0].hist(bpyn[2],bins,facecolor='None',edgecolor='b',histtype='step',density=True,cumulative=True,label='SI10')
+
+ax[1].hist(cpyn[0],bins,facecolor='None',edgecolor='k',histtype='step',density=True,cumulative=True)
+ax[1].hist(cpyn[1],bins,facecolor='None',edgecolor='r',histtype='step',density=True,cumulative=True)
+ax[1].hist(cpyn[2],bins,facecolor='None',edgecolor='b',histtype='step',density=True,cumulative=True)
+
+ax[0].legend(loc='upper left',prop={'size':15})
+
+f.savefig(f'/Users/jdvannest/Desktop/PynbodyOnly.DarkMatterShapes{topapp}{app}.CDF.png',bbox_inches='tight',pad_inches=.1)
+meta = OSXMetaData(f'/Users/jdvannest/Desktop/PynbodyOnly.DarkMatterShapes{topapp}{app}.CDF.png')
+meta.creator='DarkMatterShapes.MasterHistogram.py'
