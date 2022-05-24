@@ -8,7 +8,7 @@ def myprint(string,clear=False):
 
 parser = argparse.ArgumentParser(description='', usage='')
 parser.add_argument('-c','--cross_section',choices=['CDM','SI3','SI10','vdXsec'],required=True)
-parser.add_argument('-n','--npart',dtype=int,const=300)
+parser.add_argument('-n','--npart',type=int,default=300)
 args = parser.parse_args()
 
 simpaths = {
@@ -43,4 +43,4 @@ for i in np.arange(Nhalo):
 
 np.save(f'../DataFiles/Mvir.N{args.npart}.{args.cross_section}.z0.npy',Mvir)
 np.save(f'../DataFiles/Rvir.N{args.npart}.{args.cross_section}.z0.npy',Rvir)
-myprint('Done',clear=True)
+print('Done')

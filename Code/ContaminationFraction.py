@@ -8,7 +8,7 @@ def myprint(string,clear=False):
 
 parser = argparse.ArgumentParser(description='', usage='')
 parser.add_argument('-c','--cross_section',choices=['CDM','SI3','SI10','vdXsec'],required=True)
-parser.add_argument('-n','--npart',dtype=int,const=300)
+parser.add_argument('-n','--npart',default=300)
 args = parser.parse_args()
 
 simpaths = {
