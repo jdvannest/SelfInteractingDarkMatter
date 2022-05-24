@@ -1,4 +1,4 @@
-import argparse,sys
+import argparse,pynbody,sys
 import numpy as np
 def myprint(string,clear=False):
     if clear:
@@ -8,7 +8,7 @@ def myprint(string,clear=False):
 
 parser = argparse.ArgumentParser(description='', usage='')
 parser.add_argument('-c','--cross_section',choices=['CDM','SI3','SI10','vdXsec'],required=True)
-parser.add_argument('-n','--npart',type=int,default=300)
+parser.add_argument('-n','--npart',default=300)
 args = parser.parse_args()
 
 simpaths = {
@@ -24,6 +24,12 @@ AHFs = {
     'vdXsec':'/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.065536.z0.000.AHF_halos'
 }
 
+print('Loading Sim...')
+s = pynbody.load(simpaths[args.cross_section])
+s.physical_units()
+h = s.halos()
+myprint('Sim Loaded.',clear=True)
+
 print('Finding Halos')
 Nhalo = 0
 with open(AHFs[args.cross_section]) as f:
@@ -34,13 +40,13 @@ for line in AHF:
     if int(line.split('\t')[index])>(args.npart-1): Nhalo+=1
 myprint(f'{Nhalo} Halos Found.',clear=True)
 
-Mvir,Rvir = np.zeros(Nhalo),np.zeros(Nhalo)
-m_index = 3 if args.cross_section=='vdXsec' else 2
-r_index = 11 if args.cross_section=='vdXsec' else 10
+prog,contam_frac,min_mass = 0,np.zeros(Nhalo),min(h[1].d['mass'])
+print('Writing: 0.00%')
 for i in np.arange(Nhalo):
-    Mvir[i] = float(AHF[i].split('\t')[m_index])
-    Rvir[i] = float(AHF[i].split('\t')[r_index])
+    #Contamination Fraction is fraction of dm particles that are more massive than the
+    #minimum dm particles mass (fraction of 'low res' particles in halo)
+    contam_frac[i] = len(h[i+1].d['mass'][h[i+1].d['mass']>min_mass])/len(h[i+1].d['mass'])
+    myprint(f'Writing: {round((i+1)/Nhalo*100,2)}%',clear=True)
 
-np.save(f'../DataFiles/Mvir.N{args.npart}.{args.cross_section}.z0.npy',Mvir)
-np.save(f'../DataFiles/Rvir.N{args.npart}.{args.cross_section}.z0.npy',Rvir)
-print('Done')
+np.save(f'../DataFiles/ContaminationParticleFraction.N{args.npart}.{args.cross_section}.z0.npy',contam_frac)
+myprint('Done',clear=True)
