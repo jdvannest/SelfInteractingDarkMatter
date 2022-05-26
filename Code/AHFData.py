@@ -15,11 +15,11 @@ args = parser.parse_args()
 #Update paths depending on machine
 os.system(f'python Config.py')
 config = pickle.load(open('Config.pickle','rb'))
-AHFs = config[{args.redshift}]['AHFs']
+AHF = config[args.redshift]['AHFs'][args.cross_section]
 
 print('Finding Halos')
 Nhalo = 0
-with open(AHFs[args.cross_section]) as f:
+with open(AHF) as f:
     AHF = f.readlines()
     del AHF[0]
 index = 4 

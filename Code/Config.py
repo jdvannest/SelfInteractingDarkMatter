@@ -7,13 +7,13 @@ if os.uname()[1].split('.')[1]=='frontera':
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.004096',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.004096',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.004096',
-            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.4096/storm.cosmo25cmbvdXsec.65536.065536'
+            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.065536'
         },
         'AHFs':{
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.004096.z0.000.AHF_halos',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.004096.z0.000.AHF_halos',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.004096.z0.000.AHF_halos',
-            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.4096/storm.cosmo25cmbvdXsec.65536.065536.z0.000.AHF_halos'
+            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.065536.z0.000.AHF_halos'
         }
     },
     'z1':{
@@ -21,13 +21,13 @@ if os.uname()[1].split('.')[1]=='frontera':
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.001813',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.001813',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.001813',
-            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.4096/storm.cosmo25cmbvdXsec.65536.028992'
+            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.028992'
         },
         'AHFs':{
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.001813.z0.999.AHF_halos',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.001813.z0.999.AHF_halos',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.001813.z0.999.AHF_halos',
-            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.4096/storm.cosmo25cmbvdXsec.65536.028992.z1.000.AHF_halos'
+            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.028992.z1.000.AHF_halos'
         }
     },
     'z2':{
@@ -39,7 +39,7 @@ if os.uname()[1].split('.')[1]=='frontera':
         },
         'AHFs':{
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.001025.z1.999.AHF_halos',
-            'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.001025.z1.99.AHF_halos',
+            'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.001025.z1.999.AHF_halos',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.001025.z1.999.AHF_halos',
             'vdXsec':''
         }
