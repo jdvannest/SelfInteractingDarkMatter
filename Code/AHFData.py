@@ -22,9 +22,10 @@ Nhalo = 0
 with open(AHF) as f:
     AHF = f.readlines()
     del AHF[0]
-index = 4 
-for line in AHF:
-    if int(line.split('\t')[index])>(args.npart-1): Nhalo+=1
+#index = 4 
+#for line in AHF:
+#    if int(line.split('\t')[index])>(args.npart-1): Nhalo+=1
+Nhalo = len(AHF)
 myprint(f'{Nhalo} Halos Found.',clear=True)
 
 Mvir,Rvir,cont,npart = np.zeros(Nhalo),np.zeros(Nhalo),np.zeros(Nhalo),np.zeros(Nhalo)
