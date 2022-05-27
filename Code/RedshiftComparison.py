@@ -15,36 +15,64 @@ f,ax = plt.subplots(5,3,figsize=(15,15))
 plt.subplots_adjust(wspace=0,hspace=0)       
 for z in redshifts:
     #Load Data
-    M0 = np.load(f'../DataFiles/Mvir.N{args.npart}.CDM.{z}.npy')
-    R0 = np.load(f'../DataFiles/Rvir.N{args.npart}.CDM.{z}.npy')
-    M3 = np.load(f'../DataFiles/Mvir.N{args.npart}.SI3.{z}.npy')
-    R3 = np.load(f'../DataFiles/Rvir.N{args.npart}.SI3.{z}.npy')
-    M10 = np.load(f'../DataFiles/Mvir.N{args.npart}.SI10.{z}.npy')
-    R10 = np.load(f'../DataFiles/Rvir.N{args.npart}.SI10.{z}.npy')
-    if z in ['z0','z1']:
-        MV = np.load(f'../DataFiles/Mvir.N{args.npart}.vdXsec.{z}.npy')
-        RV = np.load(f'../DataFiles/Rvir.N{args.npart}.vdXsec.{z}.npy')
-        MVc = np.load(f'../DataFiles/ContaminationFraction.N{args.npart}.vdXsec.{z}.npy')
+    N0 = np.load(f'../DataFiles/Npart.CDM.{z}.npy')
+    N3 = np.load(f'../DataFiles/Npart.SI3.{z}.npy')
+    N10 = np.load(f'../DataFiles/Npart.SI10.{z}.npy')
+    M0 = np.load(f'../DataFiles/Mvir.CDM.{z}.npy')
+    M3 = np.load(f'../DataFiles/Mvir.SI3.{z}.npy')
+    M10 = np.load(f'../DataFiles/Mvir.SI10.{z}.npy')
+    R0 = np.load(f'../DataFiles/Rvir.CDM.{z}.npy')
+    R3 = np.load(f'../DataFiles/Rvir.SI3.{z}.npy')
+    R10 = np.load(f'../DataFiles/Rvir.SI10.{z}.npy')
+    C0 = np.load(f'../DataFiles/ContaminationFraction.CDM.{z}.npy')
+    C3 = np.load(f'../DataFiles/ContaminationFraction.SI3.{z}.npy')
+    C10 = np.load(f'../DataFiles/ContaminationFraction.SI10.{z}.npy')
+    #Apply particle count limit
+    M0 = M0[N0>(int(args.npart)-1)]
+    C0 = C0[N0>(int(args.npart)-1)]
+    R0 = R0[N0>(int(args.npart)-1)]
+    M3 = M3[N3>(int(args.npart)-1)]
+    C3 = C3[N3>(int(args.npart)-1)]
+    R3 = R3[N3>(int(args.npart)-1)]
+    M10 = M10[N10>(int(args.npart)-1)]
+    C10 = C10[N10>(int(args.npart)-1)]
+    R10 = R10[N10>(int(args.npart)-1)]
     #Apply contamination fraction limit
-    M0c = np.load(f'../DataFiles/ContaminationFraction.N{args.npart}.CDM.{z}.npy')
-    M3c = np.load(f'../DataFiles/ContaminationFraction.N{args.npart}.SI3.{z}.npy')
-    M10c = np.load(f'../DataFiles/ContaminationFraction.N{args.npart}.SI10.{z}.npy')
     contam_limit=.1
-    M0 = M0[M0c<contam_limit]
-    R0 = R0[M0c<contam_limit]
-    M3 = M3[M3c<contam_limit]
-    R3 = R3[M3c<contam_limit]
-    M10 = M10[M10c<contam_limit]
-    R10 = R10[M10c<contam_limit]
+    M0 = M0[C0<contam_limit]
+    M3 = M3[C3<contam_limit]
+    M10 = M10[C10<contam_limit]
+    R0 = R0[C0<contam_limit]
+    R3 = R3[C3<contam_limit]
+    R10 = R10[C10<contam_limit]
     if z in ['z0','z1']:
-        MV = MV[MVc<contam_limit]
-        RV = RV[MVc<contam_limit]
-        pMV = np.zeros(len(mass_bins))
-    pM0,pM3,pM10 = np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins))
+        NV = np.load(f'../DataFiles/Npart.vdXsec.{z}.npy')
+        MV = np.load(f'../DataFiles/Mvir.vdXsec.{z}.npy')
+        RV = np.load(f'../DataFiles/Rvir.vdXsec.{z}.npy')
+        CV = np.load(f'../DataFiles/ContaminationFraction.vdXsec.{z}.npy')
+        MV = MV[NV>(int(args.npart)-1)]
+        CV = CV[NV>(int(args.npart)-1)]
+        RV = RV[NV>(int(args.npart)-1)]
+        MV = MV[CV<contam_limit]
+        RV = RV[CV<contam_limit]
+    if z in ['z1','z2','z3']:
+        Nh = np.load(f'../DataFiles/Npart.h148.{z}.npy')
+        Mh = np.load(f'../DataFiles/Mvir.h148.{z}.npy')
+        Rh = np.load(f'../DataFiles/Rvir.h148.{z}.npy')
+        Ch = np.load(f'../DataFiles/ContaminationFraction.h148.{z}.npy')
+        Mh = Mh[Nh>(int(args.npart)-1)]
+        Ch = Ch[Nh>(int(args.npart)-1)]
+        Rh = Rh[Nh>(int(args.npart)-1)]
+        Mh = Mh[Ch<contam_limit]
+        Rh = Rh[Ch<contam_limit]
+    pM0,pM3,pM10,pMV,pMh = np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins))
     masses,profiles = [M0,M3,M10],[pM0,pM3,pM10]
     if z in ['z0','z1']:
         masses.append(MV)
         profiles.append(pMV)
+    if z in ['z1','z2','z3']:
+        masses.append(Mh)
+        profiles.append(pMh)
     for i in np.arange(len(mass_bins)):
         for j in np.arange(len(masses)):
             for m in masses[j]:
@@ -66,6 +94,10 @@ for z in redshifts:
         ax[redshifts.index(z)][0].hist(np.log10(MV),mass_bins,histtype='step',color='g',label='vdXsec')
         ax[redshifts.index(z)][1].hist(np.sqrt((MV*G)/(RV*1000)),vel_bins,histtype='step',color='g',label='vdXsec')
         ax[redshifts.index(z)][2].plot(mass_bins,pMV/pMV[0],color='g',label='vdXsec')
+    if z in ['z1','z2','z3']:
+        ax[redshifts.index(z)][0].hist(np.log10(Mh),mass_bins,histtype='step',color='orange',label='h148')
+        ax[redshifts.index(z)][1].hist(np.sqrt((Mh*G)/(Rh*1000)),vel_bins,histtype='step',color='orange',label='h148')
+        ax[redshifts.index(z)][2].plot(mass_bins,pMh/pMh[0],color='orange',label='h148')
     
     ax[redshifts.index(z)][0].set_ylabel(f'{z}',fontsize=20)
     ax[redshifts.index(z)][2].set_ylabel(r'N(M$_{vir}>$M)',fontsize=20)

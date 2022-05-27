@@ -8,27 +8,46 @@ parser.add_argument('-n','--npart',default=64)
 args = parser.parse_args()
 
 #Load Data
-M0 = np.load(f'../DataFiles/Mvir.N{args.npart}.CDM.{args.redshift}.npy')
-M3 = np.load(f'../DataFiles/Mvir.N{args.npart}.SI3.{args.redshift}.npy')
-M10 = np.load(f'../DataFiles/Mvir.N{args.npart}.SI10.{args.redshift}.npy')
-MV = np.load(f'../DataFiles/Mvir.N{args.npart}.vdXsec.{args.redshift}.npy')
+N0 = np.load(f'../DataFiles/Npart.CDM.{args.redshift}.npy')
+N3 = np.load(f'../DataFiles/Npart.SI3.{args.redshift}.npy')
+N10 = np.load(f'../DataFiles/Npart.SI10.{args.redshift}.npy')
+NV = np.load(f'../DataFiles/Npart.vdXsec.{args.redshift}.npy')
+Nh = np.load(f'../DataFiles/Npart.h148.{args.redshift}.npy')
+M0 = np.load(f'../DataFiles/Mvir.CDM.{args.redshift}.npy')
+M3 = np.load(f'../DataFiles/Mvir.SI3.{args.redshift}.npy')
+M10 = np.load(f'../DataFiles/Mvir.SI10.{args.redshift}.npy')
+MV = np.load(f'../DataFiles/Mvir.vdXsec.{args.redshift}.npy')
+Mh = np.load(f'../DataFiles/Mvir.h148.{args.redshift}.npy')
+C0 = np.load(f'../DataFiles/ContaminationFraction.CDM.{args.redshift}.npy')
+C3 = np.load(f'../DataFiles/ContaminationFraction.SI3.{args.redshift}.npy')
+C10 = np.load(f'../DataFiles/ContaminationFraction.SI10.{args.redshift}.npy')
+CV = np.load(f'../DataFiles/ContaminationFraction.vdXsec.{args.redshift}.npy')
+Ch = np.load(f'../DataFiles/ContaminationFraction.h148.{args.redshift}.npy')
+#Apply particle count limit
+M0 = M0[N0>(int(args.npart)-1)]
+C0 = C0[N0>(int(args.npart)-1)]
+M3 = M3[N3>(int(args.npart)-1)]
+C3 = C3[N3>(int(args.npart)-1)]
+M10 = M10[N10>(int(args.npart)-1)]
+C10 = C10[N10>(int(args.npart)-1)]
+MV = MV[NV>(int(args.npart)-1)]
+CV = CV[NV>(int(args.npart)-1)]
+Mh = Mh[Nh>(int(args.npart)-1)]
+Ch = Ch[Nh>(int(args.npart)-1)]
 #Apply contamination fraction limit
-M0c = np.load(f'../DataFiles/ContaminationFraction.N{args.npart}.CDM.{args.redshift}.npy')
-M3c = np.load(f'../DataFiles/ContaminationFraction.N{args.npart}.SI3.{args.redshift}.npy')
-M10c = np.load(f'../DataFiles/ContaminationFraction.N{args.npart}.SI10.{args.redshift}.npy')
-MVc = np.load(f'../DataFiles/ContaminationFraction.N{args.npart}.vdXsec.{args.redshift}.npy')
 contam_limit=.1
-M0 = M0[M0c<contam_limit]
-M3 = M3[M3c<contam_limit]
-M10 = M10[M10c<contam_limit]
-MV = MV[MVc<contam_limit]
+M0 = M0[C0<contam_limit]
+M3 = M3[C3<contam_limit]
+M10 = M10[C10<contam_limit]
+MV = MV[CV<contam_limit]
+Mh = Mh[Ch<contam_limit]
 
 #mass_bins = np.linspace(6,13.5,100)
 mass_bins = np.linspace(5.5,11,100)
 
-pM0,pM3,pM10,pMV = np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins))
-iM0,iM3,iM10,iMV = np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins))
-masses,profiles,inverted = [M0,M3,M10,MV],[pM0,pM3,pM10,pMV],[iM0,iM3,iM10,iMV]
+pM0,pM3,pM10,pMV,pMh = np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins))
+iM0,iM3,iM10,iMV,iMh = np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins))
+masses,profiles,inverted = [M0,M3,M10,MV,Mh],[pM0,pM3,pM10,pMV,pMh],[iM0,iM3,iM10,iMV,iMh]
 
 for i in np.arange(len(mass_bins)):
     for j in np.arange(len(masses)):
@@ -57,11 +76,13 @@ for b in [False,True]:
     ax[0].plot(mass_bins,pM3,c='r',label='SI3')
     ax[0].plot(mass_bins,pM10,c='b',label='SI10')
     ax[0].plot(mass_bins,pMV,c='g',label='vdXsec')
+    ax[0].plot(mass_bins,pMh,c='orange',label='h148')
 
     ax[1].plot(mass_bins,pM0/pM0[0],c='k',label='CDM')
     ax[1].plot(mass_bins,pM3/pM3[0],c='r',label='SI3')
     ax[1].plot(mass_bins,pM10/pM10[0],c='b',label='SI10')
     ax[1].plot(mass_bins,pMV/pMV[0],c='g',label='vdXsec')
+    ax[1].plot(mass_bins,pMh/pMh[0],c='orange',label='h148')
 
     ax[0].legend(loc='upper right',prop={'size':12})
 
@@ -88,11 +109,13 @@ for b in [False,True]:
     ax[0].plot(mass_bins,iM3,c='r',label='SI3')
     ax[0].plot(mass_bins,iM10,c='b',label='SI10')
     ax[0].plot(mass_bins,iMV,c='g',label='vdXsec')
+    ax[0].plot(mass_bins,iMh,c='orange',label='h148')
 
     ax[1].plot(mass_bins,iM0/iM0[-1],c='k',label='CDM')
     ax[1].plot(mass_bins,iM3/iM3[-1],c='r',label='SI3')
     ax[1].plot(mass_bins,iM10/iM10[-1],c='b',label='SI10')
     ax[1].plot(mass_bins,iMV/iMV[-1],c='g',label='vdXsec')
+    ax[1].plot(mass_bins,iMh/iMh[-1],c='orange',label='h148')
 
     ax[0].legend(loc='upper left',prop={'size':12})
 
@@ -114,6 +137,7 @@ for b in [False,True]:
     ax.hist(np.log10(M3),mass_bins,histtype='step',density=b,color='r',label='SI3')
     ax.hist(np.log10(M10),mass_bins,histtype='step',density=b,color='b',label='SI10')
     ax.hist(np.log10(MV),mass_bins,histtype='step',density=b,color='g',label='vdXsec')
+    ax.hist(np.log10(Mh),mass_bins,histtype='step',density=b,color='orange',label='h148')
 
     if not b:
         ax.semilogy()

@@ -7,13 +7,15 @@ if os.uname()[1].split('.')[1]=='frontera':
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.004096',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.004096',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.004096',
-            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.065536'
+            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.065536',
+            'h148':''
         },
         'AHFs':{
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.004096.z0.000.AHF_halos',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.004096.z0.000.AHF_halos',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.004096.z0.000.AHF_halos',
-            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.065536.z0.000.AHF_halos'
+            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.065536.z0.000.AHF_halos',
+            'h148':''
         }
     },
     'z1':{
@@ -21,13 +23,15 @@ if os.uname()[1].split('.')[1]=='frontera':
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.001813',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.001813',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.001813',
-            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.028992'
+            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.028992',
+            'h148':'scratch1/08902/tg882017/h148.cosmo50PLKvdXsec.3072/h148.cosmo50PLKvdXsec.3072.027836'
         },
         'AHFs':{
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.001813.z0.999.AHF_halos',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.001813.z0.999.AHF_halos',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.001813.z0.999.AHF_halos',
-            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.028992.z1.000.AHF_halos'
+            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.028992.z1.000.AHF_halos',
+            'h148':'scratch1/08902/tg882017/h148.cosmo50PLKvdXsec.3072/h148.cosmo50PLKvdXsec.3072.027836.z1.000.AHF_halos'
         }
     },
     'z2':{
@@ -35,13 +39,15 @@ if os.uname()[1].split('.')[1]=='frontera':
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.001025',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.001025',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.001025',
-            'vdXsec':''
+            'vdXsec':'',
+            'h148':'/scratch1/08902/tg882017/h148.cosmo50PLKvdXsec.3072/h148.cosmo50PLKvdXsec.3072.015580'
         },
         'AHFs':{
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.001025.z1.999.AHF_halos',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.001025.z1.999.AHF_halos',
-            'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.001025.z1.999.AHF_halos',
-            'vdXsec':''
+            'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.015580.z2.000.AHF_halos',
+            'vdXsec':'',
+            'h148':''
         }
     },
     'z3':{
@@ -49,13 +55,15 @@ if os.uname()[1].split('.')[1]=='frontera':
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.000672',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.000672',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.000672',
-            'vdXsec':''
+            'vdXsec':'',
+            'h148':'/scratch1/08902/tg882017/h148.cosmo50PLKvdXsec.3072/h148.cosmo50PLKvdXsec.3072.010182'
         },
         'AHFs':{
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.000672.z2.998.AHF_halos',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.000672.z2.998.AHF_halos',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.000672.z2.998.AHF_halos',
-            'vdXsec':''
+            'vdXsec':'',
+            'h148':'/scratch1/08902/tg882017/h148.cosmo50PLKvdXsec.3072/h148.cosmo50PLKvdXsec.3072.010182.z3.000.AHF_halos'
         }
     },
     'z4':{
@@ -63,13 +71,15 @@ if os.uname()[1].split('.')[1]=='frontera':
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.000482',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.000482',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.000482',
-            'vdXsec':''
+            'vdXsec':'',
+            'h148':''
         },
         'AHFs':{
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.000482.z3.996.AHF_halos',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.000482.z3.996.AHF_halos',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.000482.z3.996.AHF_halos',
-            'vdXsec':''
+            'vdXsec':'',
+            'h148':''
         }
     },
     'gitdir':'/work2/08902/tg882017/SelfInteractingDarkMatter',
@@ -82,13 +92,15 @@ elif os.uname()[1].split('.')[0]=='glaurung':
             'CDM':'/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.004096',
             'SI3':'/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.004096',
             'SI10':'/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.004096',
-            'vdXsec':'/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.065536'
+            'vdXsec':'/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.065536',
+            'h148':''
         },
         'AHFs':{
             'CDM':'/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.004096.0000.z0.000.AHF_halos',
             'SI3':'/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.004096.0000.z0.000.AHF_halos',
             'SI10':'/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.004096.0000.z0.000.AHF_halos',
-            'vdXsec':'/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.065536.z0.000.AHF_halos'
+            'vdXsec':'/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.065536.z0.000.AHF_halos',
+            'h148':''
         }
     },
     'z1':{
@@ -96,13 +108,15 @@ elif os.uname()[1].split('.')[0]=='glaurung':
             'CDM':'',
             'SI3':'',
             'SI10':'',
-            'vdXsec':'/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.028992'
+            'vdXsec':'/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.028992',
+            'h148':''
         },
         'AHFs':{
             'CDM':'',
             'SI3':'',
             'SI10':'',
-            'vdXsec':'/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.028992.z1.000.AHF_halos'
+            'vdXsec':'/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.028992.z1.000.AHF_halos',
+            'h148':''
         }
     },
     'z2':{
@@ -110,13 +124,15 @@ elif os.uname()[1].split('.')[0]=='glaurung':
             'CDM':'',
             'SI3':'',
             'SI10':'',
-            'vdXsec':''
+            'vdXsec':'',
+            'h148':''
         },
         'AHFs':{
             'CDM':'',
             'SI3':'',
             'SI10':'',
-            'vdXsec':''
+            'vdXsec':'',
+            'h148':''
         }
     },
     'z3':{
@@ -124,13 +140,15 @@ elif os.uname()[1].split('.')[0]=='glaurung':
             'CDM':'',
             'SI3':'',
             'SI10':'',
-            'vdXsec':''
+            'vdXsec':'',
+            'h148':''
         },
         'AHFs':{
             'CDM':'',
             'SI3':'',
             'SI10':'',
-            'vdXsec':''
+            'vdXsec':'',
+            'h148':''
         }
     },
     'z4':{
@@ -138,13 +156,15 @@ elif os.uname()[1].split('.')[0]=='glaurung':
             'CDM':'',
             'SI3':'',
             'SI10':'',
-            'vdXsec':''
+            'vdXsec':'',
+            'h148':''
         },
         'AHFs':{
             'CDM':'',
             'SI3':'',
             'SI10':'',
-            'vdXsec':''
+            'vdXsec':'',
+            'h148':''
         }
     },
     'gitdir':'/myhome2/users/vannest/SelfInteractingDarkMatter',
