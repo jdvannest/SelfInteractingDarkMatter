@@ -2,27 +2,29 @@ import argparse
 import numpy as np
 import matplotlib.pylab as plt
 
-parser = argparse.ArgumentParser(description='', usage='')
-parser.add_argument('-n','--npart',default=300)
+parser = argparse.ArgumentParser()
+parser.add_argument('-z','--redshift',choices=['z0','z1','z2','z3','z4'],required=True)
+parser.add_argument('-n','--npart',default=64)
 args = parser.parse_args()
 
 #Load Data
-M0 = np.load(f'../DataFiles/Mvir.N{args.npart}.CDM.z0.npy')
-M3 = np.load(f'../DataFiles/Mvir.N{args.npart}.SI3.z0.npy')
-M10 = np.load(f'../DataFiles/Mvir.N{args.npart}.SI10.z0.npy')
-MV = np.load(f'../DataFiles/Mvir.N{args.npart}.vdXsec.z0.npy')
+M0 = np.load(f'../DataFiles/Mvir.N{args.npart}.CDM.{args.redshift}.npy')
+M3 = np.load(f'../DataFiles/Mvir.N{args.npart}.SI3.{args.redshift}.npy')
+M10 = np.load(f'../DataFiles/Mvir.N{args.npart}.SI10.{args.redshift}.npy')
+MV = np.load(f'../DataFiles/Mvir.N{args.npart}.vdXsec.{args.redshift}.npy')
 #Apply contamination fraction limit
-M0c = np.load(f'../DataFiles/ContaminationFraction.N{args.npart}.CDM.z0.npy')
-M3c = np.load(f'../DataFiles/ContaminationFraction.N{args.npart}.SI3.z0.npy')
-M10c = np.load(f'../DataFiles/ContaminationFraction.N{args.npart}.SI10.z0.npy')
-MVc = np.load(f'../DataFiles/ContaminationFraction.N{args.npart}.vdXsec.z0.npy')
+M0c = np.load(f'../DataFiles/ContaminationFraction.N{args.npart}.CDM.{args.redshift}.npy')
+M3c = np.load(f'../DataFiles/ContaminationFraction.N{args.npart}.SI3.{args.redshift}.npy')
+M10c = np.load(f'../DataFiles/ContaminationFraction.N{args.npart}.SI10.{args.redshift}.npy')
+MVc = np.load(f'../DataFiles/ContaminationFraction.N{args.npart}.vdXsec.{args.redshift}.npy')
 contam_limit=.1
 M0 = M0[M0c<contam_limit]
 M3 = M3[M3c<contam_limit]
 M10 = M10[M10c<contam_limit]
 MV = MV[MVc<contam_limit]
 
-mass_bins = np.linspace(6,13.5,100)
+#mass_bins = np.linspace(6,13.5,100)
+mass_bins = np.linspace(5.5,11,100)
 
 pM0,pM3,pM10,pMV = np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins))
 iM0,iM3,iM10,iMV = np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins))
@@ -47,7 +49,7 @@ for b in [False,True]:
         ax[1].set_ylim([0,1])
     for i in [0,1]:
         ax[i].set_xlabel(r'Log[M/M$_\odot$]',fontsize=15)
-        ax[i].set_xlim([6,13.5])
+        ax[i].set_xlim([5.5,11])
         ax[i].tick_params(labelsize=10)
         if b: ax[i].semilogy()
 
@@ -63,7 +65,7 @@ for b in [False,True]:
 
     ax[0].legend(loc='upper right',prop={'size':12})
 
-    f.savefig(f'../Plots/MassFunctionComparison.N{args.npart}.z0{fname}.png',bbox_inches='tight',pad_inches=.1)
+    f.savefig(f'../Plots/MassFunctionComparison.N{args.npart}.{args.redshift}{fname}.png',bbox_inches='tight',pad_inches=.1)
 
 #Inverted Mass Functions
 for b in [False,True]:
@@ -78,7 +80,7 @@ for b in [False,True]:
         ax[1].set_ylim([0,1])
     for i in [0,1]:
         ax[i].set_xlabel(r'Log[M/M$_\odot$]',fontsize=15)
-        ax[i].set_xlim([6,13.5])
+        ax[i].set_xlim([5.5,11])
         ax[i].tick_params(labelsize=10)
         if b: ax[i].semilogy()
 
@@ -94,7 +96,7 @@ for b in [False,True]:
 
     ax[0].legend(loc='upper left',prop={'size':12})
 
-    f.savefig(f'../Plots/MassFunctionComparison.Inverted.N{args.npart}.z0{fname}.png',bbox_inches='tight',pad_inches=.1)
+    f.savefig(f'../Plots/MassFunctionComparison.Inverted.N{args.npart}.{args.redshift}{fname}.png',bbox_inches='tight',pad_inches=.1)
 
 
 #Mass Histograms
@@ -106,7 +108,7 @@ for b in [False,True]:
     else:
         ax.set_ylabel('N',fontsize=15)
     ax.tick_params(labelsize=10)
-    ax.set_xlim([6,13.5])
+    ax.set_xlim([5.5,11])
 
     ax.hist(np.log10(M0),mass_bins,histtype='step',density=b,color='k',label='CDM')
     ax.hist(np.log10(M3),mass_bins,histtype='step',density=b,color='r',label='SI3')
@@ -119,4 +121,4 @@ for b in [False,True]:
     else:
         fname = 'Normalized'
     ax.legend(loc='upper right',prop={'size':12})
-    f.savefig(f'../Plots/MassHistogramComparison.N{args.npart}.z0.{fname}.png',bbox_inches='tight',pad_inches=.1)
+    f.savefig(f'../Plots/MassHistogramComparison.N{args.npart}.{args.redshift}.{fname}.png',bbox_inches='tight',pad_inches=.1)

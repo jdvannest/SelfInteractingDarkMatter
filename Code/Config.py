@@ -92,21 +92,21 @@ elif os.uname()[1].split('.')[0]=='glaurung':
         }
     },
     'z1':{
-            'simpaths':{
+        'simpaths':{
             'CDM':'',
             'SI3':'',
             'SI10':'',
-            'vdXsec':''
+            'vdXsec':'/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.028992'
         },
         'AHFs':{
             'CDM':'',
             'SI3':'',
             'SI10':'',
-            'vdXsec':''
+            'vdXsec':'/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.028992.z1.000.AHF_halos'
         }
     },
     'z2':{
-            'simpaths':{
+        'simpaths':{
             'CDM':'',
             'SI3':'',
             'SI10':'',
@@ -120,7 +120,7 @@ elif os.uname()[1].split('.')[0]=='glaurung':
         }
     },
     'z3':{
-            'simpaths':{
+        'simpaths':{
             'CDM':'',
             'SI3':'',
             'SI10':'',
@@ -134,7 +134,7 @@ elif os.uname()[1].split('.')[0]=='glaurung':
         }
     },
     'z4':{
-            'simpaths':{
+        'simpaths':{
             'CDM':'',
             'SI3':'',
             'SI10':'',
