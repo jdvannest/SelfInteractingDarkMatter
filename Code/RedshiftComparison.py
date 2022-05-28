@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pylab as plt
 
 parser = argparse.ArgumentParser()
+parser.add_argument('-s','--simulation',choices=['storm','h148'],required=True)
 parser.add_argument('-n','--npart',default=64)
 args = parser.parse_args()
 
@@ -15,18 +16,18 @@ f,ax = plt.subplots(5,3,figsize=(15,15))
 plt.subplots_adjust(wspace=0,hspace=0)       
 for z in redshifts:
     #Load Data
-    N0 = np.load(f'../DataFiles/Npart.CDM.{z}.npy')
-    N3 = np.load(f'../DataFiles/Npart.SI3.{z}.npy')
-    N10 = np.load(f'../DataFiles/Npart.SI10.{z}.npy')
-    M0 = np.load(f'../DataFiles/Mvir.CDM.{z}.npy')
-    M3 = np.load(f'../DataFiles/Mvir.SI3.{z}.npy')
-    M10 = np.load(f'../DataFiles/Mvir.SI10.{z}.npy')
-    R0 = np.load(f'../DataFiles/Rvir.CDM.{z}.npy')
-    R3 = np.load(f'../DataFiles/Rvir.SI3.{z}.npy')
-    R10 = np.load(f'../DataFiles/Rvir.SI10.{z}.npy')
-    C0 = np.load(f'../DataFiles/ContaminationFraction.CDM.{z}.npy')
-    C3 = np.load(f'../DataFiles/ContaminationFraction.SI3.{z}.npy')
-    C10 = np.load(f'../DataFiles/ContaminationFraction.SI10.{z}.npy')
+    N0 = np.load(f'../DataFiles/Npart.{args.simulation}.CDM.{z}.npy')
+    N3 = np.load(f'../DataFiles/Npart.{args.simulation}.SI3.{z}.npy')
+    N10 = np.load(f'../DataFiles/Npart.{args.simulation}.SI10.{z}.npy')
+    M0 = np.load(f'../DataFiles/Mvir.{args.simulation}.CDM.{z}.npy')
+    M3 = np.load(f'../DataFiles/Mvir.{args.simulation}.SI3.{z}.npy')
+    M10 = np.load(f'../DataFiles/Mvir.{args.simulation}.SI10.{z}.npy')
+    R0 = np.load(f'../DataFiles/Rvir.{args.simulation}.CDM.{z}.npy')
+    R3 = np.load(f'../DataFiles/Rvir.{args.simulation}.SI3.{z}.npy')
+    R10 = np.load(f'../DataFiles/Rvir.{args.simulation}.SI10.{z}.npy')
+    C0 = np.load(f'../DataFiles/ContaminationFraction.{args.simulation}.CDM.{z}.npy')
+    C3 = np.load(f'../DataFiles/ContaminationFraction.{args.simulation}.SI3.{z}.npy')
+    C10 = np.load(f'../DataFiles/ContaminationFraction.{args.simulation}.SI10.{z}.npy')
     #Apply particle count limit
     M0 = M0[N0>(int(args.npart)-1)]
     C0 = C0[N0>(int(args.npart)-1)]
@@ -46,33 +47,20 @@ for z in redshifts:
     R3 = R3[C3<contam_limit]
     R10 = R10[C10<contam_limit]
     if z in ['z0','z1']:
-        NV = np.load(f'../DataFiles/Npart.vdXsec.{z}.npy')
-        MV = np.load(f'../DataFiles/Mvir.vdXsec.{z}.npy')
-        RV = np.load(f'../DataFiles/Rvir.vdXsec.{z}.npy')
-        CV = np.load(f'../DataFiles/ContaminationFraction.vdXsec.{z}.npy')
+        NV = np.load(f'../DataFiles/Npart.{args.simulation}.vdXsec.{z}.npy')
+        MV = np.load(f'../DataFiles/Mvir.{args.simulation}.vdXsec.{z}.npy')
+        RV = np.load(f'../DataFiles/Rvir.{args.simulation}.vdXsec.{z}.npy')
+        CV = np.load(f'../DataFiles/ContaminationFraction.{args.simulation}.vdXsec.{z}.npy')
         MV = MV[NV>(int(args.npart)-1)]
         CV = CV[NV>(int(args.npart)-1)]
         RV = RV[NV>(int(args.npart)-1)]
         MV = MV[CV<contam_limit]
         RV = RV[CV<contam_limit]
-    if z in ['z1','z2','z3']:
-        Nh = np.load(f'../DataFiles/Npart.h148.{z}.npy')
-        Mh = np.load(f'../DataFiles/Mvir.h148.{z}.npy')
-        Rh = np.load(f'../DataFiles/Rvir.h148.{z}.npy')
-        Ch = np.load(f'../DataFiles/ContaminationFraction.h148.{z}.npy')
-        Mh = Mh[Nh>(int(args.npart)-1)]
-        Ch = Ch[Nh>(int(args.npart)-1)]
-        Rh = Rh[Nh>(int(args.npart)-1)]
-        Mh = Mh[Ch<contam_limit]
-        Rh = Rh[Ch<contam_limit]
     pM0,pM3,pM10,pMV,pMh = np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins))
     masses,profiles = [M0,M3,M10],[pM0,pM3,pM10]
     if z in ['z0','z1']:
         masses.append(MV)
         profiles.append(pMV)
-    if z in ['z1','z2','z3']:
-        masses.append(Mh)
-        profiles.append(pMh)
     for i in np.arange(len(mass_bins)):
         for j in np.arange(len(masses)):
             for m in masses[j]:
@@ -94,10 +82,6 @@ for z in redshifts:
         ax[redshifts.index(z)][0].hist(np.log10(MV),mass_bins,histtype='step',color='g',label='vdXsec')
         ax[redshifts.index(z)][1].hist(np.sqrt((MV*G)/(RV*1000)),vel_bins,histtype='step',color='g',label='vdXsec')
         ax[redshifts.index(z)][2].plot(mass_bins,pMV/pMV[0],color='g',label='vdXsec')
-    if z in ['z1','z2','z3']:
-        ax[redshifts.index(z)][0].hist(np.log10(Mh),mass_bins,histtype='step',color='orange',label='h148')
-        ax[redshifts.index(z)][1].hist(np.sqrt((Mh*G)/(Rh*1000)),vel_bins,histtype='step',color='orange',label='h148')
-        ax[redshifts.index(z)][2].plot(mass_bins,pMh/pMh[0],color='orange',label='h148')
     
     ax[redshifts.index(z)][0].set_ylabel(f'{z}',fontsize=20)
     ax[redshifts.index(z)][2].set_ylabel(r'N(M$_{vir}>$M)',fontsize=20)
@@ -126,4 +110,4 @@ for r in np.arange(5):
     ax[r][2].yaxis.set_label_position("right")
     ax[r][2].yaxis.tick_right()
 
-f.savefig(f'../Plots/RedshiftComparison.N{args.npart}.png',bbox_inches='tight',pad_inches=.1)
+f.savefig(f'../Plots/RedshiftComparison.{args.simulation}.N{args.npart}.png',bbox_inches='tight',pad_inches=.1)
