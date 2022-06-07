@@ -14,7 +14,7 @@ git = '/myhome2/users/vannest/SelfInteractingDarkMatter/'
 simpath = '/home/vannest/dwarf_volumes/storm.SIDM/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.065536'
 filename = f'{git}DataFiles/DarkMatterShapes.Top200.vdXsec.pickle'
 
-cont_frac = np.load(f'{git}DataFiles/ContaminationFraction.N300.vdXsec.z0.npy')
+cont_frac = np.load(f'{git}DataFiles/ContaminationFraction.storm.vdXsec.z0.npy')
 halo_list = np.where(cont_frac<.1)[0][:200]+1
 
 print('Loading simulation...')
@@ -49,6 +49,7 @@ with pymp.Parallel(num_proc) as pl:
 
 Data = {}
 for halo in SharedData:
+    Data[halo] = {}
     for key in ['b_pyn','c_pyn','rbins']:
         Data[halo][key] = SharedData[halo][key]
 
