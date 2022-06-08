@@ -43,8 +43,8 @@ with pymp.Parallel(num_proc) as pl:
     for i in pl.xrange(len(halo_list)):
         hid = halo_list[i]
         current = {}
-        current['b_ahf'] = stat[hid].split('\t')[24]
-        current['c_ahf'] = stat[hid].split('\t')[25]
+        current['b_ahf'] = float(stat[hid].split('\t')[24])
+        current['c_ahf'] = float(stat[hid].split('\t')[25])
         try:
             pynbody.analysis.angmom.faceon(h[hid])
             r,ba,ca,angle,Es = halo_shape(h[hid])

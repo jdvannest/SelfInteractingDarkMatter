@@ -23,8 +23,8 @@ ax[1][0].set_ylabel('c/a',fontsize=25)
 ax[1][0].set_xlabel(r'Log[M$_{vir}$/M$_\odot$]',fontsize=25)
 ax[1][1].set_xlabel(r'V$_{vir}$ [km/s]',fontsize=25)
 
-Xsec,colors = ['CDM','SI3','SI10','vdXsec'],['k','r','b','g']
-for i in [3]:
+Xsec,colors,s = ['CDM','SI3','SI10','vdXsec'],['k','r','b','g'],[2,2,2,3.5]
+for i in [0,1,2,3]:
     Mvir = np.load(f'../DataFiles/Mvir.storm.{Xsec[i]}.z0.npy')
     Rvir = np.load(f'../DataFiles/Rvir.storm.{Xsec[i]}.z0.npy')
     Cont = np.load(f'../DataFiles/ContaminationFraction.storm.{Xsec[i]}.z0.npy')
@@ -41,13 +41,13 @@ for i in [3]:
                 b.append(Shapes[str(hnum+1)]['b_pyn'][i_inner])
                 c.append(Shapes[str(hnum+1)]['c_pyn'][i_inner])
 
-    s = 1.5
-    ax[0][0].scatter(m,b,s=s**2,c=colors[i],label=Xsec[i])
-    ax[0][1].scatter(v,b,s=s**2,c=colors[i])
-    ax[1][0].scatter(m,c,s=s**2,c=colors[i])
-    ax[1][1].scatter(v,c,s=s**2,c=colors[i])
+    
+    ax[0][0].scatter(m,b,s=s[i]**2,c=colors[i],label=Xsec[i])
+    ax[0][1].scatter(v,b,s=s[i]**2,c=colors[i])
+    ax[1][0].scatter(m,c,s=s[i]**2,c=colors[i])
+    ax[1][1].scatter(v,c,s=s[i]**2,c=colors[i])
 
-ax[0][0].legend(loc='lower right',prop={'size':20})
+ax[0][0].legend(loc='lower right',prop={'size':13})
 f.savefig('../Plots/ShapesVsEtc.png',bbox_inches='tight',pad_inches=.1)
 meta = OSXMetaData('../Plots/ShapesVsEtc.png')
 meta.creator='../Plots/ShapesVsEtc.Plots.py'

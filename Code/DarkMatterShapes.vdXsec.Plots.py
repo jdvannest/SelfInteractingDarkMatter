@@ -18,8 +18,8 @@ ax[1][1].set_xticks([0,.2,.4,.6,.8,1])
 ax[0][0].set_yticks([0,.2,.4,.6,.8,1])
 ax[0][0].set_ylabel('b/a',fontsize=25)
 ax[1][0].set_ylabel('c/a',fontsize=25)
-ax[0][0].set_title(r'AHF',fontsize=25)
-ax[0][1].set_title(r'.1*R$_{vir}$',fontsize=25)
+ax[0][0].set_title(r'R$_{vir}$ [AHF]',fontsize=25)
+ax[0][1].set_title(r'.1*R$_{vir}$ [Pyn]',fontsize=25)
 
 Xsec,colors,bins = ['CDM','SI3','SI10','vdXsec'],['k','r','b','g'],np.linspace(0,1,101)
 for i in [0,1,2,3]:
@@ -28,8 +28,8 @@ for i in [0,1,2,3]:
 
     for halo in Pyn:
         if not np.isnan(Pyn[halo]['rbins'][0]) and int(halo)<201:
-            b.append(Pyn[halo]['b_pyn'][-1])
-            c.append(Pyn[halo]['c_pyn'][-1])
+            b.append(Pyn[halo]['b_ahf'])
+            c.append(Pyn[halo]['c_ahf'])
             i_inner = np.argmin(abs(Pyn[halo]['rbins'] - (Pyn[halo]['rbins'][-1]*.1 )))
             bi.append(Pyn[halo]['b_pyn'][i_inner])
             ci.append(Pyn[halo]['c_pyn'][i_inner])
