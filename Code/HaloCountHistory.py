@@ -33,4 +33,5 @@ for c in C:
 ax.legend(loc='upper left')
 f.savefig(f'/home1/08902/tg882017/work2/SelfInteractingDarkMatter/Plots/HaloCountHistory.png',bbox_inches='tight',pad_inches=.1)
 ax.semilogy()
+ax.set_ylabel(r'Log[N$_{halo}$]')
 f.savefig(f'/home1/08902/tg882017/work2/SelfInteractingDarkMatter/Plots/HaloCountHistory.Log.png',bbox_inches='tight',pad_inches=.1)
