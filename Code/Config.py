@@ -50,13 +50,13 @@ if os.uname()[1].split('.')[1]=='frontera':
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.000672',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.000672',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.000672',
-            'vdXsec':'',
+            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.010560',
         },
         'AHFs':{
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.000672.z2.998.AHF_halos',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.000672.z2.998.AHF_halos',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.000672.z2.998.AHF_halos',
-            'vdXsec':'',
+            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.010560.z3.047.AHF_halos',
         }
     },
     'z4':{
@@ -64,13 +64,13 @@ if os.uname()[1].split('.')[1]=='frontera':
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.000482',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.000482',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.000482',
-            'vdXsec':'',
+            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.007703',
         },
         'AHFs':{
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.000482.z3.996.AHF_halos',
             'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.000482.z3.996.AHF_halos',
             'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.000482.z3.996.AHF_halos',
-            'vdXsec':'',
+            'vdXsec':'/scratch1/08902/tg882017/storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.007703.z4.000.AHF_halos',
         }
     }
     },
