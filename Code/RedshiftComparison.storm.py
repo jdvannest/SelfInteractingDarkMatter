@@ -45,7 +45,7 @@ for z in redshifts:
     R0 = R0[C0<contam_limit]
     R3 = R3[C3<contam_limit]
     R10 = R10[C10<contam_limit]
-    if z in ['z0','z1']:
+    if z != 'z2':
         NV = np.load(f'../DataFiles/Npart.storm.vdXsec.{z}.npy')
         MV = np.load(f'../DataFiles/Mvir.storm.vdXsec.{z}.npy')
         RV = np.load(f'../DataFiles/Rvir.storm.vdXsec.{z}.npy')
@@ -57,7 +57,7 @@ for z in redshifts:
         RV = RV[CV<contam_limit]
     pM0,pM3,pM10,pMV = np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins))
     masses,profiles = [M0,M3,M10],[pM0,pM3,pM10]
-    if z in ['z0','z1']:
+    if z != 'z2':
         masses.append(MV)
         profiles.append(pMV)
     for i in np.arange(len(mass_bins)):
@@ -77,7 +77,7 @@ for z in redshifts:
     ax[redshifts.index(z)][2].plot(mass_bins,pM3/pM3[0],color='r',label='SI3')
     ax[redshifts.index(z)][2].plot(mass_bins,pM10/pM10[0],color='b',label='SI10')
 
-    if z in ['z0','z1']:
+    if z != 'z2':
         ax[redshifts.index(z)][0].hist(np.log10(MV),mass_bins,histtype='step',color='g',label='vdXsec')
         ax[redshifts.index(z)][1].hist(np.sqrt((MV*G)/(RV*1000)),vel_bins,histtype='step',color='g',label='vdXsec')
         ax[redshifts.index(z)][2].plot(mass_bins,pMV/pMV[0],color='g',label='vdXsec')
