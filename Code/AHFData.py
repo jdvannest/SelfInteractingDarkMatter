@@ -9,7 +9,7 @@ def myprint(string,clear=False):
 parser = argparse.ArgumentParser(description='', usage='')
 parser.add_argument('-s','--simulation',choices=['storm','h148'],required=True)
 parser.add_argument('-c','--cross_section',choices=['CDM','SI3','SI10','vdXsec'],required=True)
-parser.add_argument('-z','--redshift',choices=['z0','z1','z2','z3','z4'],required=True)
+parser.add_argument('-z','--redshift',choices=['z0','z1','z2','z3','z4','z10'],required=True)
 #parser.add_argument('-n','--npart',type=int,default=64)
 args = parser.parse_args()
 
