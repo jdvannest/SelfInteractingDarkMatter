@@ -6,7 +6,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-n','--npart',default=64)
 args = parser.parse_args()
 
-redshifts = ['z0','z1','z2','z3','z4']
+redshifts = ['z0','z1','z3','z4','z10']
 vel_bins = np.logspace(-.3,2.65,100)
 mass_bins = np.linspace(5.5,11,100)
 G = 4.30091e-3 #pc Msol^-1 (km/s)^2
@@ -45,21 +45,21 @@ for z in redshifts:
     R0 = R0[C0<contam_limit]
     R3 = R3[C3<contam_limit]
     R10 = R10[C10<contam_limit]
-    if z != 'z2':
-        NV = np.load(f'../DataFiles/Npart.storm.vdXsec.{z}.npy')
-        MV = np.load(f'../DataFiles/Mvir.storm.vdXsec.{z}.npy')
-        RV = np.load(f'../DataFiles/Rvir.storm.vdXsec.{z}.npy')
-        CV = np.load(f'../DataFiles/ContaminationFraction.storm.vdXsec.{z}.npy')
-        MV = MV[NV>(int(args.npart)-1)]
-        CV = CV[NV>(int(args.npart)-1)]
-        RV = RV[NV>(int(args.npart)-1)]
-        MV = MV[CV<contam_limit]
-        RV = RV[CV<contam_limit]
+    #if z != 'z2':
+    NV = np.load(f'../DataFiles/Npart.storm.vdXsec.{z}.npy')
+    MV = np.load(f'../DataFiles/Mvir.storm.vdXsec.{z}.npy')
+    RV = np.load(f'../DataFiles/Rvir.storm.vdXsec.{z}.npy')
+    CV = np.load(f'../DataFiles/ContaminationFraction.storm.vdXsec.{z}.npy')
+    MV = MV[NV>(int(args.npart)-1)]
+    CV = CV[NV>(int(args.npart)-1)]
+    RV = RV[NV>(int(args.npart)-1)]
+    MV = MV[CV<contam_limit]
+    RV = RV[CV<contam_limit]
     pM0,pM3,pM10,pMV = np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins))
     masses,profiles = [M0,M3,M10],[pM0,pM3,pM10]
-    if z != 'z2':
-        masses.append(MV)
-        profiles.append(pMV)
+    #if z != 'z2':
+    masses.append(MV)
+    profiles.append(pMV)
     for i in np.arange(len(mass_bins)):
         for j in np.arange(len(masses)):
             for m in masses[j]:
@@ -77,10 +77,10 @@ for z in redshifts:
     ax[redshifts.index(z)][2].plot(mass_bins,pM3/pM3[0],color='r',label='SI3')
     ax[redshifts.index(z)][2].plot(mass_bins,pM10/pM10[0],color='b',label='SI10')
 
-    if z != 'z2':
-        ax[redshifts.index(z)][0].hist(np.log10(MV),mass_bins,histtype='step',color='g',label='vdXsec')
-        ax[redshifts.index(z)][1].hist(np.sqrt((MV*G)/(RV*1000)),vel_bins,histtype='step',color='g',label='vdXsec')
-        ax[redshifts.index(z)][2].plot(mass_bins,pMV/pMV[0],color='g',label='vdXsec')
+    #if z != 'z2':
+    ax[redshifts.index(z)][0].hist(np.log10(MV),mass_bins,histtype='step',color='g',label='vdXsec')
+    ax[redshifts.index(z)][1].hist(np.sqrt((MV*G)/(RV*1000)),vel_bins,histtype='step',color='g',label='vdXsec')
+    ax[redshifts.index(z)][2].plot(mass_bins,pMV/pMV[0],color='g',label='vdXsec')
     
     ax[redshifts.index(z)][0].set_ylabel(f'{z}',fontsize=20)
     ax[redshifts.index(z)][2].set_ylabel(r'N(M$_{vir}>$M)',fontsize=20)
