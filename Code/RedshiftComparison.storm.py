@@ -6,7 +6,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-n','--npart',default=64)
 args = parser.parse_args()
 
-redshifts = ['z0','z1','z3','z4','z10']
+redshifts = ['z0','z1','z3','z10','z13.5']
 vel_bins = np.logspace(-.3,2.65,100)
 mass_bins = np.linspace(5.5,11,100)
 G = 4.30091e-3 #pc Msol^-1 (km/s)^2
