@@ -21,6 +21,24 @@ if os.uname()[1].split('.')[1]=='frontera':
             'VTS':''
         }
     },
+    'z0.04':{
+        'simpaths':{
+            'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.003936',
+            'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.003936',
+            'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.003936',
+            'SI50':'/scratch1/08902/tg882017/storm.cosmo25cmbSI50.4096/storm.cosmo25cmbSI50.4096.003936',
+            'vdXsec':'',
+            'VTS':''
+        },
+        'AHFs':{
+            'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.003936.z0.041.AHF_halos',
+            'SI3':'/scratch1/08902/tg882017/storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.003936.z0.041.AHF_halos',
+            'SI10':'/scratch1/08902/tg882017/storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.003936.z0.041.AHF_halos',
+            'SI50':'/scratch1/08902/tg882017/storm.cosmo25cmbSI50.4096/storm.cosmo25cmbSI50.4096.003936.z0.041.AHF_halos',
+            'vdXsec':'',
+            'VTS':''
+        }
+    },
     'z1':{
         'simpaths':{
             'CDM':'/scratch1/08902/tg882017/storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.001813',
