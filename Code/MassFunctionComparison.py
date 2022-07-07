@@ -10,11 +10,11 @@ args = parser.parse_args()
 
 #Load Data
 N0 = np.load(f'../DataFiles/Npart.{args.simulation}.CDM.{args.redshift}.npy')
-#NV = np.load(f'../DataFiles/Npart.{args.simulation}.vdXsec.{args.redshift}.npy')
+NV = np.load(f'../DataFiles/Npart.{args.simulation}.VTS.{args.redshift}.npy')
 M0 = np.load(f'../DataFiles/Mvir.{args.simulation}.CDM.{args.redshift}.npy')
-#MV = np.load(f'../DataFiles/Mvir.{args.simulation}.vdXsec.{args.redshift}.npy')
+MV = np.load(f'../DataFiles/Mvir.{args.simulation}.VTS.{args.redshift}.npy')
 C0 = np.load(f'../DataFiles/ContaminationFraction.{args.simulation}.CDM.{args.redshift}.npy')
-#CV = np.load(f'../DataFiles/ContaminationFraction.{args.simulation}.vdXsec.{args.redshift}.npy')
+CV = np.load(f'../DataFiles/ContaminationFraction.{args.simulation}.VTS.{args.redshift}.npy')
 if args.simulation=='storm':
     N3 = np.load(f'../DataFiles/Npart.{args.simulation}.SI3.{args.redshift}.npy')
     N10 = np.load(f'../DataFiles/Npart.{args.simulation}.SI10.{args.redshift}.npy')
@@ -26,16 +26,12 @@ if args.simulation=='storm':
         N50 = np.load(f'../DataFiles/Npart.{args.simulation}.SI50.{args.redshift}.npy')
         M50 = np.load(f'../DataFiles/Mvir.{args.simulation}.SI50.{args.redshift}.npy')
         C50 = np.load(f'../DataFiles/ContaminationFraction.{args.simulation}.SI50.{args.redshift}.npy')
-#if args.redshift=='z13.5':
-    #NV = np.load(f'../DataFiles/Npart.{args.simulation}.VTS.{args.redshift}.npy')
-    #MV = np.load(f'../DataFiles/Mvir.{args.simulation}.VTS.{args.redshift}.npy')
-    #CV = np.load(f'../DataFiles/ContaminationFraction.{args.simulation}.VTS.{args.redshift}.npy')
 
 #Apply particle count limit
 M0 = M0[N0>(int(args.npart)-1)]
 C0 = C0[N0>(int(args.npart)-1)]
-#MV = MV[NV>(int(args.npart)-1)]
-#CV = CV[NV>(int(args.npart)-1)]
+MV = MV[NV>(int(args.npart)-1)]
+CV = CV[NV>(int(args.npart)-1)]
 if args.simulation=='storm':
     M3 = M3[N3>(int(args.npart)-1)]
     C3 = C3[N3>(int(args.npart)-1)]
@@ -47,7 +43,7 @@ if args.simulation=='storm':
 #Apply contamination fraction limit
 contam_limit=.1
 M0 = M0[C0<contam_limit]
-#MV = MV[CV<contam_limit]
+MV = MV[CV<contam_limit]
 if args.simulation=='storm':
     M3 = M3[C3<contam_limit]
     M10 = M10[C10<contam_limit]
@@ -55,7 +51,7 @@ if args.simulation=='storm':
 
 #mass_bins = np.linspace(6,13.5,100)
 mass_bins = np.linspace(5.5,11,100)
-MV=[]
+
 if args.simulation=='storm':
     pM0,pM3,pM10,pMV = np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins))
     iM0,iM3,iM10,iMV = np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins)),np.zeros(len(mass_bins))
@@ -101,14 +97,14 @@ for b in [False,True]:
         ax[0].plot(mass_bins,pM3,c='r',label='SI3')
         ax[0].plot(mass_bins,pM10,c='b',label='SI10')
         if args.redshift in ['z0.04','z2','z3','z4','z13.5']: ax[0].plot(mass_bins,pM50,c='orange',label='SI50')
-    #ax[0].plot(mass_bins,pMV,c='g',label='vdXsec')
+    ax[0].plot(mass_bins,pMV,c='g',label='vdXsec')
 
     ax[1].plot(mass_bins,pM0/pM0[0],c='k',label='CDM')
     if args.simulation=='storm':
         ax[1].plot(mass_bins,pM3/pM3[0],c='r',label='SI3')
         ax[1].plot(mass_bins,pM10/pM10[0],c='b',label='SI10')
         if args.redshift in ['z0.04','z2','z3','z4','z13.5']: ax[1].plot(mass_bins,pM50/pM50[0],c='orange',label='SI50')
-    #ax[1].plot(mass_bins,pMV/pMV[0],c='g',label='vdXsec')
+    ax[1].plot(mass_bins,pMV/pMV[0],c='g',label='vdXsec')
 
     ax[0].legend(loc='upper right',prop={'size':12})
 
@@ -136,14 +132,14 @@ for b in [False,True]:
         ax[0].plot(mass_bins,iM3,c='r',label='SI3')
         ax[0].plot(mass_bins,iM10,c='b',label='SI10')
         if args.redshift in ['z0.04','z2','z3','z4','z13.5']: ax[0].plot(mass_bins,iM50,c='orange',label='SI50')
-    #ax[0].plot(mass_bins,iMV,c='g',label='vdXsec')
+    ax[0].plot(mass_bins,iMV,c='g',label='vdXsec')
 
     ax[1].plot(mass_bins,iM0/iM0[-1],c='k',label='CDM')
     if args.simulation=='storm':
         ax[1].plot(mass_bins,iM3/iM3[-1],c='r',label='SI3')
         ax[1].plot(mass_bins,iM10/iM10[-1],c='b',label='SI10')
         if args.redshift in ['z0.04','z2','z3','z4','z13.5']: ax[1].plot(mass_bins,iM50/iM50[-1],c='orange',label='SI50')
-    #ax[1].plot(mass_bins,iMV/iMV[-1],c='g',label='vdXsec')
+    ax[1].plot(mass_bins,iMV/iMV[-1],c='g',label='vdXsec')
 
     ax[0].legend(loc='upper left',prop={'size':12})
 
@@ -166,7 +162,7 @@ for b in [False,True]:
         ax.hist(np.log10(M3),mass_bins,histtype='step',density=b,color='r',label='SI3')
         ax.hist(np.log10(M10),mass_bins,histtype='step',density=b,color='b',label='SI10')
         if args.redshift in ['z0.04','z2','z3','z4','z13.5']: ax.hist(np.log10(M50),mass_bins,histtype='step',density=b,color='orange',label='SI50')
-    #ax.hist(np.log10(MV),mass_bins,histtype='step',density=b,color='g',label='vdXsec')
+    ax.hist(np.log10(MV),mass_bins,histtype='step',density=b,color='g',label='vdXsec')
 
     if not b:
         ax.semilogy()

@@ -18,7 +18,7 @@ paths={
     'CDM':'storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.004096',
     'SI3':'storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.004096',
     'SI10':'storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.004096',
-    'vdXsec':'storm.cosmo25cmbvdXsec.65536/storm.cosmo25cmbvdXsec.65536.065536'
+    'vdXsec':'storm.cosmo25cmbvdXsec.4096.VTS/storm.cosmo25cmbvdXsec.4096.VTS.004096'
 }
 
 git = '/myhome2/users/vannest/SelfInteractingDarkMatter/'
