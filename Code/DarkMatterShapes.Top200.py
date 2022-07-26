@@ -1,4 +1,4 @@
-import argparse,pickle,pymp,pynbody,sys,warnings
+import argparse,os,pickle,pymp,pynbody,sys,warnings
 import numpy as np
 from pynbody.analysis.halo import halo_shape
 warnings.filterwarnings("ignore")
@@ -11,25 +11,22 @@ output_path = "../DataFiles/"
 num_proc = 10
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-c","--cross_section",required=True,choices=['CDM','SI3','SI10','vdXsec'])
+parser.add_argument("-c","--cross_section",required=True,choices=['CDM','SI3','SI10','SI50','vdXsec'])
 args = parser.parse_args()
+redshift = 'z0.04' if args.cross_section=='SI50' else 'z0'
 
-paths={
-    'CDM':'storm.cosmo25cmb.4096/storm.cosmo25cmb.4096.004096',
-    'SI3':'storm.cosmo25cmbSI3.4096/storm.cosmo25cmbSI3.4096.004096',
-    'SI10':'storm.cosmo25cmbSI10.4096/storm.cosmo25cmbSI10.4096.004096',
-    'vdXsec':'storm.cosmo25cmbvdXsec.4096.VTS/storm.cosmo25cmbvdXsec.4096.VTS.004096'
-}
-
-git = '/myhome2/users/vannest/SelfInteractingDarkMatter/'
-simpath = f'/home/vannest/dwarf_volumes/storm.SIDM/{paths[args.cross_section]}'
+#Update paths depending on machine
+os.system(f'python Config.py')
+config = pickle.load(open('Config.pickle','rb'))
+simpath = config[args.simulation][redshift]['simpaths'][args.cross_section]
+AHF = config[args.simulation][redshift]['AHFs'][args.cross_section]
+git = config['gitdir']
 filename = f'{git}DataFiles/DarkMatterShapes.Top200.{args.cross_section}.pickle'
-
 cont_frac = np.load(f'{git}DataFiles/ContaminationFraction.storm.{args.cross_section}.z0.npy')
 halo_list = np.where(cont_frac<.1)[0][:200]+1
 
 print('Loading simulation...')
-with open(f'{simpath}.z0.000.AHF_halos') as f:
+with open(AHF) as f:
     stat = f.readlines()
 s = pynbody.load(simpath)
 s.physical_units()
