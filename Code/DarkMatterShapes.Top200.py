@@ -18,9 +18,9 @@ redshift = 'z0.04' if args.cross_section=='SI50' else 'z0'
 #Update paths depending on machine
 os.system(f'python Config.py')
 config = pickle.load(open('Config.pickle','rb'))
-simpath = config[args.simulation][redshift]['simpaths'][args.cross_section]
-AHF = config[args.simulation][redshift]['AHFs'][args.cross_section]
-git = config['gitdir']
+simpath = config['storm'][redshift]['simpaths'][args.cross_section]
+AHF = config['storm'][redshift]['AHFs'][args.cross_section]
+git = config['gitdir']+'/'
 filename = f'{git}DataFiles/DarkMatterShapes.Top200.{args.cross_section}.pickle'
 cont_frac = np.load(f'{git}DataFiles/ContaminationFraction.storm.{args.cross_section}.z0.npy')
 halo_list = np.where(cont_frac<.1)[0][:200]+1
