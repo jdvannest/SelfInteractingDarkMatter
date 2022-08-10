@@ -13,7 +13,8 @@ num_proc = 10
 parser = argparse.ArgumentParser()
 parser.add_argument("-c","--cross_section",required=True,choices=['CDM','SI3','SI10','SI50','vdXsec'])
 args = parser.parse_args()
-redshift = 'z0.04' if args.cross_section=='SI50' else 'z0'
+#redshift = 'z0.04' if args.cross_section=='SI50' else 'z0'
+redshift = 'z0'
 
 #Update paths depending on machine
 os.system(f'python Config.py')
