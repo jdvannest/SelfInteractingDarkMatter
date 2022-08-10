@@ -10,11 +10,11 @@ args = parser.parse_args()
 
 #Load Data
 N0 = np.load(f'../DataFiles/Npart.{args.simulation}.CDM.{args.redshift}.npy')
-NV = np.load(f'../DataFiles/Npart.{args.simulation}.VTS.{args.redshift}.npy')
+NV = np.load(f'../DataFiles/Npart.{args.simulation}.vdXsec.{args.redshift}.npy')
 M0 = np.load(f'../DataFiles/Mvir.{args.simulation}.CDM.{args.redshift}.npy')
-MV = np.load(f'../DataFiles/Mvir.{args.simulation}.VTS.{args.redshift}.npy')
+MV = np.load(f'../DataFiles/Mvir.{args.simulation}.vdXsec.{args.redshift}.npy')
 C0 = np.load(f'../DataFiles/ContaminationFraction.{args.simulation}.CDM.{args.redshift}.npy')
-CV = np.load(f'../DataFiles/ContaminationFraction.{args.simulation}.VTS.{args.redshift}.npy')
+CV = np.load(f'../DataFiles/ContaminationFraction.{args.simulation}.vdXsec.{args.redshift}.npy')
 if args.simulation=='storm':
     N3 = np.load(f'../DataFiles/Npart.{args.simulation}.SI3.{args.redshift}.npy')
     N10 = np.load(f'../DataFiles/Npart.{args.simulation}.SI10.{args.redshift}.npy')
