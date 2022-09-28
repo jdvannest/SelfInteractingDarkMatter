@@ -21,8 +21,8 @@ ax[1][0].set_ylabel('c/a',fontsize=25)
 ax[0][0].set_title(r'R$_{vir}$ [AHF]',fontsize=25)
 ax[0][1].set_title(r'.1*R$_{vir}$ [Pyn]',fontsize=25)
 
-Xsec,colors,bins = ['CDM','SI3','SI10','vdXsec'],['k','r','b','g'],np.linspace(0,1,101)
-for i in [0,1,2,3]:
+Xsec,colors,bins = ['CDM','SI3','SI10','SI50','vdXsec'],['k','r','b','orange','g'],np.linspace(0,1,101)
+for i in [0,1,2,3,4]:
     Pyn = pickle.load(open(f'../DataFiles/DarkMatterShapes.Top200.{Xsec[i]}.pickle','rb'))
     b,c,bi,ci = [],[],[],[]
 

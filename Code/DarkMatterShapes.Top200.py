@@ -1,6 +1,7 @@
 import argparse,os,pickle,pymp,pynbody,sys,warnings
 import numpy as np
-from pynbody.analysis.halo import halo_shape
+#from pynbody.analysis.halo import halo_shape
+from ShapeFunctions.Functions import *
 warnings.filterwarnings("ignore")
 def myprint(string,clear=False):
     if clear:
@@ -45,14 +46,16 @@ with pymp.Parallel(num_proc) as pl:
         current['c_ahf'] = float(stat[hid].split('\t')[25])
         try:
             pynbody.analysis.angmom.faceon(h[hid])
-            r,ba,ca,angle,Es = halo_shape(h[hid])
+            r,ba,ca,angle,Es,ndm,ndm_i = DarkMatterShape(h[hid])
             current['b_pyn'] = ba
             current['c_pyn'] = ca
             current['rbins'] = r
+            current['n'] = ndm
         except:
             current['b_pyn'] = [np.nan]
             current['c_pyn'] = [np.nan]
             current['rbins'] = [np.nan]
+            current['n'] = [np.nan]
         SharedData[str(hid)] = current
         prog[0]+=1
         myprint(f'Writing Pynbody Data: {round(prog[0]/len(halo_list)*100,2)}%',clear=True)
@@ -60,7 +63,7 @@ with pymp.Parallel(num_proc) as pl:
 Data = {}
 for halo in SharedData:
     Data[halo] = {}
-    for key in ['b_ahf','c_ahf','b_pyn','c_pyn','rbins']:
+    for key in ['b_ahf','c_ahf','b_pyn','c_pyn','rbins','n']:
         Data[halo][key] = SharedData[halo][key]
 
 out = open(filename,'wb')
