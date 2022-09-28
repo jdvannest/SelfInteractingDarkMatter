@@ -46,7 +46,7 @@ with pymp.Parallel(num_proc) as pl:
         current['c_ahf'] = float(stat[hid].split('\t')[25])
         try:
             pynbody.analysis.angmom.faceon(h[hid])
-            r,ba,ca,angle,Es,ndm,ndm_i = DarkMatterShape(h[hid])
+            r,a,ba,ca,angle,Es,ndm,ndm_i = DarkMatterShape(h[hid])
             current['b_pyn'] = ba
             current['c_pyn'] = ca
             current['rbins'] = r
