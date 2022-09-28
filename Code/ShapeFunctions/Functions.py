@@ -82,7 +82,7 @@ def DarkMatterShape(sim, N=100, rin=None, rout=None, bins='equal'):
         rbin = 0.5*(mid[0:N]+mid[1:N+1])
 
     # Define b/a and c/a ratios and angle arrays:
-    ba,ca,angle,ndm,ndm_i,a = np.zeros(N),np.zeros(N),np.zeros(N),np.zeros(N),np.zeros(N),np.zeros(N)
+    ba,ca,angle,ndm,ndm_i = np.zeros(N),np.zeros(N),np.zeros(N),np.zeros(N),np.zeros(N)
     Es = [0]*N
 
     # Begin loop through radii:
@@ -112,7 +112,7 @@ def DarkMatterShape(sim, N=100, rin=None, rout=None, bins='equal'):
 
             # End iterations if there is no data in range:
             if (len(r) == 0):
-                ba[i],ca[i],angle[i],Es[i],ndm_i[i],a[i] = b/a,c/a,almnt(E),E,num_i,a
+                ba[i],ca[i],angle[i],Es[i],ndm_i[i] = b/a,c/a,almnt(E),E,num_i
                 logger.info('No data in range after %i iterations' %count)
                 break
 
@@ -145,7 +145,7 @@ def DarkMatterShape(sim, N=100, rin=None, rout=None, bins='equal'):
             # Convergence criterion:
             if (np.abs(b/a-bnew/anew) < tol) & (np.abs(c/a-cnew/anew) < tol):
                 if (almnt(-E) < almnt(E)): E = -E
-                ba[i],ca[i],angle[i],Es[i],ndm[i],ndm_i[i],a[i] = bnew/anew,cnew/anew,almnt(E),E,num,num_i,anew
+                ba[i],ca[i],angle[i],Es[i],ndm[i],ndm_i[i] = bnew/anew,cnew/anew,almnt(E),E,num,num_i
                 break
 
             # Increase tolerance if convergence has stagnated:
@@ -154,7 +154,8 @@ def DarkMatterShape(sim, N=100, rin=None, rout=None, bins='equal'):
             # Reset a,b,c for the next iteration:
             a,b,c = anew,bnew,cnew
 
-    return [array.SimArray(rbin, sim.d['pos'].units), a, ba, ca, angle, Es, ndm, ndm_i]
+    # !!!! r is the samething as a (I verified), so volume of shell is 4/3*pi*r*b*c
+    return [array.SimArray(rbin, sim.d['pos'].units), ba, ca, angle, Es, ndm, ndm_i]
 
 
 def StellarShape(sim, N=100, rin=None, rout=None, bins='equal'):
@@ -234,7 +235,7 @@ def StellarShape(sim, N=100, rin=None, rout=None, bins='equal'):
         rbin = 0.5*(mid[0:N]+mid[1:N+1])
 
     # Define b/a and c/a ratios and angle arrays:
-    ba,ca,angle,nstar,nstar_i,a = np.zeros(N),np.zeros(N),np.zeros(N),np.zeros(N),np.zeros(N),np.zeros(N)
+    ba,ca,angle,nstar,nstar_i = np.zeros(N),np.zeros(N),np.zeros(N),np.zeros(N),np.zeros(N)
     Es = [0]*N
 
     # Begin loop through radii:
@@ -264,7 +265,7 @@ def StellarShape(sim, N=100, rin=None, rout=None, bins='equal'):
 
             # End iterations if there is no data in range:
             if (len(r) == 0):
-                ba[i],ca[i],angle[i],Es[i],nstar_i[i],a[i] = b/a,c/a,almnt(E),E,num_i,a
+                ba[i],ca[i],angle[i],Es[i],nstar_i[i] = b/a,c/a,almnt(E),E,num_i
                 logger.info('No data in range after %i iterations' %count)
                 break
 
@@ -297,7 +298,7 @@ def StellarShape(sim, N=100, rin=None, rout=None, bins='equal'):
             # Convergence criterion:
             if (np.abs(b/a-bnew/anew) < tol) & (np.abs(c/a-cnew/anew) < tol):
                 if (almnt(-E) < almnt(E)): E = -E
-                ba[i],ca[i],angle[i],Es[i],nstar[i],nstar_i[i],a[i] = bnew/anew,cnew/anew,almnt(E),E,num,num_i,anew
+                ba[i],ca[i],angle[i],Es[i],nstar[i],nstar_i[i] = bnew/anew,cnew/anew,almnt(E),E,num,num_i
                 break
 
             # Increase tolerance if convergence has stagnated:
@@ -306,4 +307,4 @@ def StellarShape(sim, N=100, rin=None, rout=None, bins='equal'):
             # Reset a,b,c for the next iteration:
             a,b,c = anew,bnew,cnew
 
-    return [array.SimArray(rbin, sim.d['pos'].units), a, ba, ca, angle, Es, nstar, nstar_i]
+    return [array.SimArray(rbin, sim.d['pos'].units), ba, ca, angle, Es, nstar, nstar_i]
